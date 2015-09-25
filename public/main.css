@@ -1,0 +1,41 @@
+.pipeline-name {
+    font-size: 5vw;
+    flex-basis: 100%;
+}
+
+.stage-container {
+    display: flex;
+    margin-bottom: -6vw;
+    width: 100%;
+    height: 7em;
+}
+
+.stage {
+    flex-basis: 100%;
+    font-color: #676767
+}
+
+/*http://www.colorzilla.com/gradient-editor/*/
+.stage.passed {
+    background: linear-gradient(to bottom, #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%);
+}
+.stage.failed {
+    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#8a0000 67%,#570000 83%,#240000 100%);
+}
+.stage.cancelled {
+    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#8a0000 67%,#570000 83%,#240000 100%);
+}
+.stage.failing {
+    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#8a0000 67%,#570000 83%,#240000 100%);
+}
+.stage.building {
+    background: linear-gradient(to bottom, #e6f0a3 0%,#d2e638 50%,#c3d825 51%,#dbf043 100%);
+}
+.stage.unknown {
+    background: linear-gradient(to bottom, #aebcbf 0%,#0a0809 100%);
+}
+
+#dashboard-error .error {
+    font-size: 24vw;
+    color: #8a0000;
+}
