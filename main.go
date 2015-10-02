@@ -60,7 +60,7 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if err = json.Unmarshal(body, dashy); err != nil {
 		errorMsg := "error unmarshalling dashy JSON"
-		log.Printf("%s: %s", errorMsg, err)
+		log.Printf("%s: %s (%s)", errorMsg, err, string(body))
 		http.Error(w, errorMsg, http.StatusBadRequest)
 		return
 	}
