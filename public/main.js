@@ -1,49 +1,52 @@
-(function(window, document, $, undefined){
+(function(window, document, virtualDom, nanoajax, undefined) {
   "use strict";
 
-  var buildGrid = function(pipelines) {
-    var dashboard = $("<div>", {id: "dashboard"});
-    pipelines.forEach(function(pipeline) {
-      var pipelineElem = $("<div>").addClass("pipeline");
-      var stageContainerElem = $("<div>").addClass("stage-container").appendTo(pipelineElem);
-      var pipelineNameElem = $("<div>").addClass("pipeline-name").text(pipeline.name).appendTo(pipelineElem);
+  var h = virtualDom.h,
+      diff = virtualDom.diff,
+      createElement = virtualDom.create,
+      patch = virtualDom.patch,
 
-      pipeline.stages.forEach(function(stage) {
-        $("<div>").addClass("stage").addClass(stage.status.toLowerCase()).text(stage.name).appendTo(stageContainerElem);
-      });
+      config = window.config,
 
-      pipelineElem.appendTo(dashboard);
-    });
+        render = function(pipelines) {
+            var pipelinesNodes = pipelines.map(function(pipeline){
+                var stageNodes = pipeline.stages.map(function(stage){
+                    return h("div", {className: "stage " + stage.status.toLowerCase()}, [stage.name]);
+                });
 
-    $("#dashboard").replaceWith(dashboard);
-    $("#dashboard-error").html("");
-  };
+                return h("div", {className: "pipeline"}, [
+                    h("div", {className: "stage-container"}, stageNodes),
+                    h("div", {className: "pipeline-name"}, [pipeline.name])
+                ]);
+            });
 
-  var errorGrid = function(pipelines) {
-    $("#dashboard").html("");
-    $("#dashboard-error").html($("<div>").addClass("error").text("Error!"));
-  };
+            return h("div", {id: "dashboard"}, pipelinesNodes);
+        },
 
-  var dash = function() {
-    $.ajax({
-      url: "/dashy",
-      type: "POST",
-      data: JSON.stringify({
-        url: "http://localhost:4567/dashboard.json",
-        interests: []
-      })
-    })
-    .success(function(data) {
-      buildGrid(JSON.parse(data));
-    })
-    .fail(function() {
-      errorGrid();
-    })
-    .done(function() {
-      console.log("tick!");
-    });
-  }
+        dash = function() {
+            nanoajax.ajax({
+                url: "/dashy",
+                type: "POST",
+                body: JSON.stringify({url: config.url, interests: config.interests})
+          }, function(code, responseText, request) {
+            if (code >= 200 && code <= 299) {
+                newTree = render(JSON.parse(responseText));
+            } else {
+                newTree = h("div", {id: "dashboard", className: "error"}, [responseText || "Error!"]);
+            }
+            patches = diff(tree, newTree);
+            rootNode = patch(rootNode, patches);
+            tree = newTree;
+            console.log("tick!");
+          });
+        },
 
-  dash();
-  setInterval(dash, 30000);
-}(window, document, jQuery));
+        tree = h("div", {id: "dashboard"}),
+        newTree,
+        patches,
+        rootNode = createElement(tree);
+
+    document.body.appendChild(rootNode);
+    dash();
+    setInterval(dash, config.interval);
+}(window, document, virtualDom, nanoajax));

@@ -34,7 +34,7 @@
     background: linear-gradient(to bottom, #aeaeae 0%,#555555 100%);
 }
 
-#dashboard-error .error {
+#dashboard.error {
     font-size: 24vw;
     color: #8a0000;
 }
