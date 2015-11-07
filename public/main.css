@@ -36,7 +36,30 @@
     background: linear-gradient(to bottom, #aeaeae, #858585);
 }
 
+.stage.unknown-passed {
+    background: linear-gradient(to bottom, #b4ddb4, #169116);
+}
+.stage.unknown-failed {
+    background: linear-gradient(to bottom, #ddb4b4, #911616);
+}
+.stage.unknown-cancelled {
+    background: linear-gradient(to bottom, #ddbeb4, #915816);
+}
+.stage.unknown-failing {
+    background: linear-gradient(to bottom, #ddb4b4, #911616);
+    animation: flicker 2s linear infinite;;
+}
+.stage.unknown-building {
+    background: linear-gradient(to bottom, #edecb4, #d4d23a);
+    animation: flicker 2s linear infinite;;
+}
+
 #dashboard.error {
     font-size: 24vw;
     color: #8a0000;
+}
+
+@keyframes flicker {
+  0% { background-position: 0px 0px; }
+  100% { background-position: 0px 100px; }
 }

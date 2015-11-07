@@ -96,6 +96,50 @@ var _ = Describe("GoDashboard", func() {
 			Expect(stages[0].Name).To(Equal("Stage New"))
 			Expect(stages[0].Status).To(Equal("Passed"))
 		})
+
+		Context("With the current status as unknown", func() {
+			goStagesForLatestInstance := []a.GoStage{{Name: "Stage X", Status: "Unknown"}}
+			goStagesForMinus1Instance := []a.GoStage{{Name: "Stage X", Status: "Unknown"}}
+			goStagesForMinus2Instance := []a.GoStage{{Name: "Stage X", Status: "Passed"}}
+			goLatestInstance := a.GoInstance{Stages: goStagesForLatestInstance}
+			goMinus1Instance := a.GoInstance{Stages: goStagesForMinus1Instance}
+			goMinus2Instance := a.GoInstance{Stages: goStagesForMinus2Instance}
+			goInstances := []a.GoInstance{goMinus2Instance, goMinus1Instance, goLatestInstance}
+			goPipelines := []a.GoPipeline{{Instances: goInstances, Name: "Pipeline One"}}
+			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			simpleDashboard := goDashboard.ToSimpleDashboard()
+
+			It("Uses the status of the older build", func() {
+				pipelines := simpleDashboard.Pipelines
+				Expect(pipelines).To(HaveLen(1))
+				stages := pipelines[0].Stages
+				Expect(stages).To(HaveLen(1))
+				Expect(stages[0].Name).To(Equal("Stage X"))
+				Expect(stages[0].Status).To(Equal("Unknown-Passed"))
+			})
+		})
+
+		Context("With current and older statuses as unknown", func() {
+			goStagesForLatestInstance := []a.GoStage{{Name: "Stage X", Status: "Unknown"}}
+			goStagesForMinus1Instance := []a.GoStage{{Name: "Stage X", Status: "Unknown"}}
+			goLatestInstance := a.GoInstance{Stages: goStagesForLatestInstance}
+			goMinus1Instance := a.GoInstance{Stages: goStagesForMinus1Instance}
+			goInstances := []a.GoInstance{goMinus1Instance, goLatestInstance}
+			goPipelines := []a.GoPipeline{{Instances: goInstances, Name: "Pipeline One"}}
+			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			simpleDashboard := goDashboard.ToSimpleDashboard()
+
+			It("Has unknown status", func() {
+				pipelines := simpleDashboard.Pipelines
+				Expect(pipelines).To(HaveLen(1))
+				stages := pipelines[0].Stages
+				Expect(stages).To(HaveLen(1))
+				Expect(stages[0].Name).To(Equal("Stage X"))
+				Expect(stages[0].Status).To(Equal("Unknown"))
+			})
+		})
 	})
 
 	Context("With multiple pipeline-group, pipelines, instances and stages", func() {
@@ -150,11 +194,11 @@ var _ = Describe("GoDashboard", func() {
 		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline"}}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
-		It("Ignores non-matching pipeline", func() {
+		It("Ignores non-matching pipelines", func() {
 			Expect(simpleDashboard.Pipelines).To(BeEmpty())
 		})
 
-		It("Gathers the ignored pipeline name", func() {
+		It("Gathers the names of the ignored pipelines", func() {
 			Expect(simpleDashboard.Ignores).To(HaveLen(1))
 			Expect(simpleDashboard.Ignores[0]).To(Equal("Pipeline One"))
 		})
