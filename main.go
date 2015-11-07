@@ -21,12 +21,12 @@ type dashy struct {
 
 func toDashboard(dashy *dashy) ([]app.GoPipelineGroup, error) {
 	response, err := http.Get(dashy.URL)
-	if response == nil {
-		return nil, fmt.Errorf("no response from external dashboard")
-	}
-
 	if err != nil {
 		return nil, fmt.Errorf("bad response external dashboard: %d", response.StatusCode)
+	}
+
+	if response == nil {
+		return nil, fmt.Errorf("no response from external dashboard")
 	}
 
 	if response.StatusCode != http.StatusOK {
