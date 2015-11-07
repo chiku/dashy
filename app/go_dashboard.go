@@ -91,7 +91,7 @@ func traverseStatusInInstances(currentStage GoStage, instances []GoInstance) str
 		for j := len(instance.Stages) - 1; j >= 0; j-- {
 			stage := instance.Stages[j]
 			if currentStage.Name == stage.Name && !strings.EqualFold(stage.Status, unknown) {
-				return fmt.Sprintf("%s-%s", unknown, stage.Status)
+				return stage.Status
 			}
 		}
 	}

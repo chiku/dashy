@@ -116,7 +116,7 @@ var _ = Describe("GoDashboard", func() {
 				stages := pipelines[0].Stages
 				Expect(stages).To(HaveLen(1))
 				Expect(stages[0].Name).To(Equal("Stage X"))
-				Expect(stages[0].Status).To(Equal("Unknown-Passed"))
+				Expect(stages[0].Status).To(Equal("Passed"))
 			})
 		})
 
