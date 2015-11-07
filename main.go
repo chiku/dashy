@@ -80,7 +80,7 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 
 	simpleDashboard := goDashboard.ToSimpleDashboard()
 	if len(simpleDashboard.Pipelines) == 0 {
-		log.Printf("not configued to display any pipeline, however these pipelines are not included: %s", strings.Join(simpleDashboard.Ignores, ", "))
+		log.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(simpleDashboard.Ignores, ", "))
 	}
 
 	output, err := json.Marshal(simpleDashboard.Pipelines)
@@ -103,5 +103,6 @@ func main() {
 		Addr:    ":3000",
 		Handler: loggingHandler,
 	}
+	fmt.Println("Starting the application on http://localhost:3000")
 	server.ListenAndServe()
 }
