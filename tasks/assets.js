@@ -10,6 +10,6 @@ gulp.task('css-build', function() {
 
 gulp.task('html-build', function() {
   return gulp.src('public/index.html')
-	.pipe(minifyHTML())
+    .pipe(minifyHTML())
     .pipe(gulp.dest('./out/public'));
 });
