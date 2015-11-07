@@ -1,3 +1,6 @@
+# Project specific
+out/
+
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
@@ -26,3 +29,6 @@ _testmain.go
 # Godep
 Godeps/_workspace
 Godeps/Readme
+
+# Node
+node_modules/
