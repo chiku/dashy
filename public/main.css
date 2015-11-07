@@ -16,22 +16,24 @@
 }
 
 .stage.passed {
-    background: linear-gradient(to bottom, #b4ddb4 0%,#83c783 17%,#52b152 33%,#229122 67%,#109110 83%,#069106 100%);
+    background: linear-gradient(to bottom, #b4ddb4, #169116);
 }
 .stage.failed {
-    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#912222 67%,#911010 83%,#910606 100%);
+    background: linear-gradient(to bottom, #ddb4b4, #911616);
 }
 .stage.cancelled {
-    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#912222 67%,#911010 83%,#910606 100%);
+    background: linear-gradient(to bottom, #ddbeb4, #915816);
 }
 .stage.failing {
-    background: linear-gradient(to bottom, #ddb4b4 0%,#c78383 17%,#b15252 33%,#912222 67%,#911010 83%,#910606 100%);
+    background: linear-gradient(to bottom, #ddb4b4, #911616);
+    animation: flicker 2s linear infinite;;
 }
 .stage.building {
-    background: linear-gradient(to bottom, #e6f0a3 0%,#d2e638 50%,#c3d825 51%,#dbf043 100%);
+    background: linear-gradient(to bottom, #edecb4, #d4d23a);
+    animation: flicker 2s linear infinite;;
 }
 .stage.unknown {
-    background: linear-gradient(to bottom, #aeaeae 0%,#555555 100%);
+    background: linear-gradient(to bottom, #aeaeae, #858585);
 }
 
 #dashboard.error {
