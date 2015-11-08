@@ -39,9 +39,13 @@ type GoStage struct {
 type GoInstance struct {
 	Stages []GoStage `json:"stages"`
 }
+type GoPreviousInstance struct {
+	Result string `json:"result"`
+}
 type GoPipeline struct {
-	Name      string       `json:"name"`
-	Instances []GoInstance `json:"instances"`
+	Name             string             `json:"name"`
+	Instances        []GoInstance       `json:"instances"`
+	PreviousInstance GoPreviousInstance `json:"previous_instance"`
 }
 type GoPipelineGroup struct {
 	Pipelines []GoPipeline `json:"pipelines"`
@@ -65,7 +69,7 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 
 					goInstance := goPipeline.Instances[len(goPipeline.Instances)-1]
 					for _, goStage := range goInstance.Stages {
-						status := traverseStatusInInstances(goStage, goPipeline.Instances)
+						status := traverseStatusInInstances(goStage, goPipeline.Instances, goPipeline.PreviousInstance)
 						stages = append(stages, SimpleStage{Name: goStage.Name, Status: status})
 					}
 					if len(stages) > 0 {
@@ -81,12 +85,28 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 	return dashboard
 }
 
-func traverseStatusInInstances(currentStage GoStage, instances []GoInstance) string {
-	if len(instances) == 1 && currentStage.Status != unknown {
-		return currentStage.Status
+func traverseStatusInInstances(currentStage GoStage, instances []GoInstance, previousInstance GoPreviousInstance) string {
+	selfStatus := currentStage.Status
+	if !strings.EqualFold(selfStatus, unknown) {
+		return selfStatus
 	}
 
-	for i := len(instances) - 2; i >= 0; i-- { // -2 to skip current
+	olderInstances := instances[0 : len(instances)-1]
+	olderInstanceStatus := findKnownStatusInInstances(currentStage, olderInstances)
+	if !strings.EqualFold(olderInstanceStatus, unknown) {
+		return olderInstanceStatus
+	}
+
+	previousInstanceResult := previousInstance.Result
+	if previousInstanceResult != "" && !strings.EqualFold(previousInstanceResult, unknown) {
+		return previousInstanceResult
+	}
+
+	return unknown
+}
+
+func findKnownStatusInInstances(currentStage GoStage, instances []GoInstance) string {
+	for i := len(instances) - 1; i >= 0; i-- {
 		instance := instances[i]
 		for j := len(instance.Stages) - 1; j >= 0; j-- {
 			stage := instance.Stages[j]
@@ -96,7 +116,7 @@ func traverseStatusInInstances(currentStage GoStage, instances []GoInstance) str
 		}
 	}
 
-	return currentStage.Status
+	return unknown
 }
 
 func GoPipelineGroupsFromJSON(body []byte) ([]GoPipelineGroup, error) {
