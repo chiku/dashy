@@ -25,3 +25,7 @@ gulp.task('go-test', ['go-restore'], function(cb) {
 gulp.task('go-format', function(cb) {
   execCommand('go fmt . ./app', cb);
 });
+
+gulp.task('go-lint', function(cb) {
+  execCommand('go vet . ./app', cb);
+});
