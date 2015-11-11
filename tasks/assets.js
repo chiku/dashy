@@ -13,3 +13,8 @@ gulp.task('html-build', function() {
     .pipe(minifyHTML())
     .pipe(gulp.dest('./out/public'));
 });
+
+gulp.task('favicon-build', function() {
+  return gulp.src('public/favicon.ico')
+    .pipe(gulp.dest('./out/public'));
+});
