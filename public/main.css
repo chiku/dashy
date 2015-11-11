@@ -1,55 +1,52 @@
 .pipeline-name {
-  margin-top: -6vmax;
-  flex-basis: 100%;
+    margin-top: -6vmax;
+    flex-basis: 100%;
 }
 
 .stage-container {
-  display: flex;
-  width: 100%;
-  height: 1vmax;
+    display: flex;
+    width: 100%;
+    height: 1vmax;
 }
 
 .stage {
-  flex-basis: 100%;
-  color: #676767;
+    flex-basis: 100%;
+    color: #676767;
 }
 
 .stage.passed {
-  background: linear-gradient(to bottom, #b4ddb4, #169116);
+    background: linear-gradient(to bottom, #b4ddb4, #169116);
 }
+
 .stage.building {
-  background-image: repeating-linear-gradient(90deg,
-    transparent,
-    transparent 10px,
-    rgba(255,255,255,0.5) 10px,
-    rgba(255,255,255,0.5) 16px
-  ), linear-gradient(#b4ddb4, #169116);
-  animation: scrolling 6s infinite linear;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.5) 10px, rgba(255, 255, 255, 0.5) 16px), linear-gradient(#b4ddb4, #169116);
+    animation: scrolling 6s infinite linear;
 }
+
 .stage.failed {
-  background: linear-gradient(to bottom, #ddb4b4, #911616);
+    background: linear-gradient(to bottom, #ddb4b4, #911616);
 }
+
 .stage.failing {
-  background-image: repeating-linear-gradient(90deg,
-    transparent,
-    transparent 20px,
-    rgba(255,255,255,0.5) 20px,
-    rgba(255,255,255,0.5) 32px
-  ), linear-gradient(#ddb4b4, #911616);
-  animation: scrolling 6s infinite linear;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255, 255, 255, 0.5) 20px, rgba(255, 255, 255, 0.5) 32px), linear-gradient(#ddb4b4, #911616);
+    animation: scrolling 6s infinite linear;
 }
+
 .stage.cancelled {
-  background: linear-gradient(to bottom, #ddbeb4, #915816);
+    background: linear-gradient(to bottom, #ddbeb4, #915816);
 }
+
 .stage.unknown {
-  background: linear-gradient(to bottom, #aeaeae, #858585);
+    background: linear-gradient(to bottom, #aeaeae, #858585);
 }
 
 #dashboard.error {
-  font-size: 24vmax;
-  color: #8a0000;
+    font-size: 24vmax;
+    color: #8a0000;
 }
 
 @keyframes scrolling {
-  100% { background-position: 256px 0px;}
+    100% {
+        background-position: 256px 0px;
+    }
 }
