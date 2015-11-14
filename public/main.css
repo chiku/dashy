@@ -1,12 +1,14 @@
 .pipeline-name {
-    margin-top: -6vmax;
+    height: 6vmax;
+    margin-top: -5.75vmax;
+    font-size: 5vmax;
     flex-basis: 100%;
 }
 
 .stage-container {
     display: flex;
     width: 100%;
-    height: 1vmax;
+    height: 6vmax;
 }
 
 .stage {
