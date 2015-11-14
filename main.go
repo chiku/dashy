@@ -19,37 +19,7 @@ type dashy struct {
 	Interests []string `json:"interests"`
 }
 
-func toDashboard(dashy *dashy) ([]app.GoPipelineGroup, error) {
-	response, err := http.Get(dashy.URL)
-	if err != nil {
-		return nil, fmt.Errorf("bad response external dashboard: %d", response.StatusCode)
-	}
-
-	if response == nil {
-		return nil, fmt.Errorf("no response from external dashboard")
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("bad response code %d for external dashboard", response.StatusCode)
-	}
-
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading external dashboard response body: %s", err.Error())
-	}
-	defer response.Body.Close()
-
-	dashboard, err := app.GoPipelineGroupsFromJSON(body)
-	if err != nil {
-		return nil, err
-	}
-
-	return dashboard, nil
-}
-
 func dashyHandler(w http.ResponseWriter, r *http.Request) {
-	dashy := &dashy{}
-
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		errorMsg := "error reading dashy request"
@@ -58,6 +28,8 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	dashy := &dashy{}
 	if err = json.Unmarshal(body, dashy); err != nil {
 		errorMsg := "error unmarshalling dashy JSON"
 		log.Printf("%s: %s (%s)", errorMsg, err, string(body))
@@ -65,9 +37,9 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goPipelineGroups, err := toDashboard(dashy)
+	goPipelineGroups, err := app.ParseHTTPResponse(http.Get(dashy.URL))
 	if err != nil {
-		errorMsg := "error fetching dashboard"
+		errorMsg := "error fetching data from Gocd"
 		log.Printf("%s: %s", errorMsg, err)
 		http.Error(w, errorMsg, http.StatusServiceUnavailable)
 		return

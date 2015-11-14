@@ -1,0 +1,87 @@
+package app_test
+
+import (
+	"bytes"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+
+	a "github.com/chiku/dashy/app"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+)
+
+var _ = Describe("Request Gocd", func() {
+	Context("when succeess", func() {
+		It("converts external JSON to Godashboard", func() {
+			const dashboardJSON = `[{ "pipelines": [{"name": "Pipeline"}] }]`
+
+			body := ioutil.NopCloser(bytes.NewBufferString(dashboardJSON))
+			response := &http.Response{StatusCode: http.StatusOK, Body: body}
+			dashboard, err := a.ParseHTTPResponse(response, nil)
+
+			Expect(dashboard).To(HaveLen(1))
+			Expect(dashboard[0].Pipelines).To(HaveLen(1))
+			pipeline := dashboard[0].Pipelines[0]
+			Expect(pipeline.Name).To(Equal("Pipeline"))
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Context("when failed", func() {
+		It("reports the error", func() {
+			dashboard, err := a.ParseHTTPResponse(nil, fmt.Errorf("remote error"))
+
+			Expect(err).To(Equal(fmt.Errorf("remote error")))
+			Expect(dashboard).To(BeNil())
+		})
+	})
+
+	Context("when HTTP status code is not 200", func() {
+		It("reports the incorrect HTTP status code", func() {
+			response := &http.Response{StatusCode: http.StatusInternalServerError}
+			dashboard, err := a.ParseHTTPResponse(response, nil)
+
+			Expect(err).To(Equal(fmt.Errorf("the HTTP status code was 500")))
+			Expect(dashboard).To(BeNil())
+		})
+	})
+
+	Context("when HTTP body is nil", func() {
+		It("reports the absence of body", func() {
+			response := &http.Response{StatusCode: http.StatusOK, Body: nil}
+			dashboard, err := a.ParseHTTPResponse(response, nil)
+
+			Expect(err).To(Equal(fmt.Errorf("the response didn't have a body")))
+			Expect(dashboard).To(BeNil())
+		})
+	})
+
+	Context("when HTTP body read fails", func() {
+		It("reports the error", func() {
+			body := &badReadCloser{err: errors.New("read error")}
+			response := &http.Response{StatusCode: http.StatusOK, Body: body}
+			dashboard, err := a.ParseHTTPResponse(response, nil)
+
+			Expect(err).To(Equal(fmt.Errorf("error reading response: read error")))
+			Expect(dashboard).To(BeNil())
+		})
+	})
+
+	Context("when HTTP body JSON parse fails", func() {
+		It("reports the error", func() {
+			body := ioutil.NopCloser(bytes.NewBufferString("Bad body"))
+			response := &http.Response{StatusCode: http.StatusOK, Body: body}
+			dashboard, err := a.ParseHTTPResponse(response, nil)
+
+			Expect(err.Error()).To(ContainSubstring("error in unmarshalling external dashboard JSON"))
+			Expect(dashboard).To(BeNil())
+		})
+	})
+})
+
+type badReadCloser struct{ err error }
+
+func (rc *badReadCloser) Close() error             { return nil }
+func (rc *badReadCloser) Read([]byte) (int, error) { return 0, rc.err }
