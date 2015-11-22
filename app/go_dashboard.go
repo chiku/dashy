@@ -7,7 +7,10 @@ import (
 )
 
 const (
-	unknown = "Unknown"
+	building   = "Building"
+	unknown    = "Unknown"
+	failed     = "Failed"
+	recovering = "Recovering"
 )
 
 type SimpleStage struct {
@@ -87,6 +90,12 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 
 func traverseStatusInInstances(currentStage GoStage, instances []GoInstance, previousInstance GoPreviousInstance) string {
 	selfStatus := currentStage.Status
+	previousInstanceResult := previousInstance.Result
+
+	if previousInstanceResult == failed && strings.EqualFold(selfStatus, building) {
+		return recovering
+	}
+
 	if !strings.EqualFold(selfStatus, unknown) {
 		return selfStatus
 	}
@@ -97,7 +106,6 @@ func traverseStatusInInstances(currentStage GoStage, instances []GoInstance, pre
 		return olderInstanceStatus
 	}
 
-	previousInstanceResult := previousInstance.Result
 	if previousInstanceResult != "" && !strings.EqualFold(previousInstanceResult, unknown) {
 		return previousInstanceResult
 	}

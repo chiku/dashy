@@ -25,6 +25,11 @@
     animation: scrolling 6s infinite linear;
 }
 
+.stage.recovering {
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255, 255, 255, 0.5) 20px, rgba(255, 255, 255, 0.5) 32px), linear-gradient(#ddb4b4, #911616);
+    animation: scrolling 6s infinite linear;
+}
+
 .stage.failed {
     background: linear-gradient(to bottom, #ddb4b4, #911616);
 }

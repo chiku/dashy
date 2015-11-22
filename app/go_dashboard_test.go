@@ -162,6 +162,26 @@ var _ = Describe("GoDashboard", func() {
 				})
 			})
 		})
+
+		Context("With previous result as failed and current status as building", func() {
+			goStagesForLatestInstance := []a.GoStage{{Name: "Stage X", Status: "Building"}}
+			goLatestInstance := a.GoInstance{Stages: goStagesForLatestInstance}
+			goPreviousInstance := a.GoPreviousInstance{Result: "Failed"}
+			goInstances := []a.GoInstance{goLatestInstance}
+			goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances, PreviousInstance: goPreviousInstance}}
+			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			simpleDashboard := goDashboard.ToSimpleDashboard()
+
+			It("Uses marks the status as recovering", func() {
+				pipelines := simpleDashboard.Pipelines
+				Expect(pipelines).To(HaveLen(1))
+				stages := pipelines[0].Stages
+				Expect(stages).To(HaveLen(1))
+				Expect(stages[0].Name).To(Equal("Stage X"))
+				Expect(stages[0].Status).To(Equal("Recovering"))
+			})
+		})
 	})
 
 	Context("With multiple pipeline-group, pipelines, instances and stages", func() {
