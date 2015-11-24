@@ -21,12 +21,12 @@
 }
 
 .stage.building {
-    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.5) 10px, rgba(255, 255, 255, 0.5) 16px), linear-gradient(#b4ddb4, #169116);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.5) 10px, rgba(255, 255, 255, 0.5) 16px), linear-gradient(#c2d0b4, #557716);
     animation: scrolling 6s infinite linear;
 }
 
 .stage.recovering {
-    background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255, 255, 255, 0.5) 20px, rgba(255, 255, 255, 0.5) 32px), linear-gradient(#ddb4b4, #911616);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.5) 10px, rgba(255, 255, 255, 0.5) 16px), linear-gradient(#d3bfb4, #7e4a16);
     animation: scrolling 6s infinite linear;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .stage.failing {
-    background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255, 255, 255, 0.5) 20px, rgba(255, 255, 255, 0.5) 32px), linear-gradient(#ddb4b4, #911616);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.5) 10px, rgba(255, 255, 255, 0.5) 16px), linear-gradient(#d5bcb4, #824316);
     animation: scrolling 6s infinite linear;
 }
 
