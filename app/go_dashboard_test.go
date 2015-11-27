@@ -268,8 +268,8 @@ var _ = Describe("GoDashboard", func() {
 		}
 		]`
 
-		It("Creates the GoPipelineGroup", func() {
-			goDashboard, err := a.GoPipelineGroupsFromJSON([]byte(dashboardJSON))
+		It("Is created from byte array", func() {
+			goDashboard, err := a.NewGoPipelineGroups([]byte(dashboardJSON))
 			Expect(err).To(BeNil())
 			Expect(goDashboard).To(HaveLen(1))
 			Expect(goDashboard[0].Pipelines).To(HaveLen(1))
@@ -289,34 +289,10 @@ var _ = Describe("GoDashboard", func() {
 
 		Context("On failure", func() {
 			It("Has error", func() {
-				goDashboard, err := a.GoPipelineGroupsFromJSON([]byte(`Random`))
+				goDashboard, err := a.NewGoPipelineGroups([]byte(`Random`))
 				Expect(err).ToNot(BeNil())
 				Expect(goDashboard).To(BeNil())
 			})
-		})
-	})
-})
-
-var _ = Describe("SimpleDashboard", func() {
-	Context("Marshal to JSON", func() {
-		It("Has key names of pipelines starting with lower-case", func() {
-			simpleDashboard := a.SimpleDashboard{
-				Pipelines: []a.SimplePipeline{
-					a.SimplePipeline{
-						Name: "Pipeline",
-						Stages: []a.SimpleStage{
-							a.SimpleStage{
-								Name:   "Stage",
-								Status: "Passed",
-							},
-						},
-					},
-				},
-			}
-
-			body, err := simpleDashboard.ToJSON()
-			Expect(err).To(BeNil())
-			Expect(string(body)).To(Equal(`[{"name":"Pipeline","stages":[{"name":"Stage","status":"Passed"}]}]`))
 		})
 	})
 })

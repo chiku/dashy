@@ -13,28 +13,6 @@ const (
 	recovering = "Recovering"
 )
 
-type SimpleStage struct {
-	Name   string `json:"name"`
-	Status string `json:"status"`
-}
-type SimplePipeline struct {
-	Name   string        `json:"name"`
-	Stages []SimpleStage `json:"stages"`
-}
-type SimpleDashboard struct {
-	Pipelines []SimplePipeline
-	Ignores   []string
-}
-
-func (dashboard *SimpleDashboard) ToJSON() (output []byte, err error) {
-	output, err = json.Marshal(dashboard.Pipelines)
-	if err != nil {
-		return nil, fmt.Errorf("error marshalling simple dashboard JSON :%s", err.Error())
-	}
-
-	return output, nil
-}
-
 type GoStage struct {
 	Name   string `json:"name"`
 	Status string `json:"status"`
@@ -56,6 +34,15 @@ type GoPipelineGroup struct {
 type GoDashboard struct {
 	PipelineGroups []GoPipelineGroup
 	Interests      []string
+}
+
+func NewGoPipelineGroups(body []byte) ([]GoPipelineGroup, error) {
+	var dashboard []GoPipelineGroup
+	err := json.Unmarshal(body, &dashboard)
+	if err != nil {
+		return nil, fmt.Errorf("error in unmarshalling external dashboard JSON: %s", err.Error())
+	}
+	return dashboard, nil
 }
 
 func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
@@ -125,13 +112,4 @@ func findKnownStatusInInstances(currentStage GoStage, instances []GoInstance) st
 	}
 
 	return unknown
-}
-
-func GoPipelineGroupsFromJSON(body []byte) ([]GoPipelineGroup, error) {
-	var dashboard []GoPipelineGroup
-	err := json.Unmarshal(body, &dashboard)
-	if err != nil {
-		return nil, fmt.Errorf("error in unmarshalling external dashboard JSON: %s", err.Error())
-	}
-	return dashboard, nil
 }

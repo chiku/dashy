@@ -24,7 +24,7 @@ func ParseHTTPResponse(response *http.Response, err error) ([]GoPipelineGroup, e
 	}
 	defer response.Body.Close()
 
-	dashboard, err := GoPipelineGroupsFromJSON(body)
+	dashboard, err := NewGoPipelineGroups(body)
 	if err != nil {
 		return nil, err
 	}
