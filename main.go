@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -20,26 +19,25 @@ type dashy struct {
 }
 
 func dashyHandler(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
+	dashy, err := app.NewDashy(r)
 	if err != nil {
 		errorMsg := "error reading dashy request"
 		log.Printf("%s: %s", errorMsg, err)
 		http.Error(w, errorMsg, http.StatusBadRequest)
 		return
 	}
-	defer r.Body.Close()
 
-	dashy := &dashy{}
-	if err = json.Unmarshal(body, dashy); err != nil {
-		errorMsg := "error unmarshalling dashy JSON"
-		log.Printf("%s: %s (%s)", errorMsg, err, string(body))
-		http.Error(w, errorMsg, http.StatusBadRequest)
+	response, err := http.Get(dashy.URL)
+	if err != nil {
+		errorMsg := "error fetching data from Gocd"
+		log.Printf("%s: %s", errorMsg, err)
+		http.Error(w, errorMsg, http.StatusServiceUnavailable)
 		return
 	}
 
-	goPipelineGroups, err := app.ParseHTTPResponse(http.Get(dashy.URL))
+	goPipelineGroups, err := app.ParseHTTPResponse(response)
 	if err != nil {
-		errorMsg := "error fetching data from Gocd"
+		errorMsg := "error parsing Gocd response"
 		log.Printf("%s: %s", errorMsg, err)
 		http.Error(w, errorMsg, http.StatusServiceUnavailable)
 		return
@@ -49,7 +47,6 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 		PipelineGroups: goPipelineGroups,
 		Interests:      dashy.Interests,
 	}
-
 	simpleDashboard := goDashboard.ToSimpleDashboard()
 	if len(simpleDashboard.Pipelines) == 0 {
 		log.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(simpleDashboard.Ignores, ", "))

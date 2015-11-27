@@ -7,10 +7,7 @@ import (
 	"net/http"
 )
 
-func ParseHTTPResponse(response *http.Response, err error) ([]GoPipelineGroup, error) {
-	if err != nil {
-		return nil, err
-	}
+func ParseHTTPResponse(response *http.Response) ([]GoPipelineGroup, error) {
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("the HTTP status code was %d", response.StatusCode)
 	}
