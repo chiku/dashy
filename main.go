@@ -16,13 +16,15 @@ const maxRetries = 3
 
 func fetchWithRetries(url string) (response *http.Response, err error) {
 	retries := 0
-	for err != nil && retries < maxRetries {
+
+	for response == nil && retries < maxRetries {
+		response, err = http.Get(url)
 		if err != nil {
 			log.Printf("error fetching data from Gocd (retry #%d): %s", retries+1, err)
 		}
-		response, err = http.Get(url)
+		retries++
 	}
-	return response, err
+	return
 }
 
 func dashyHandler(w http.ResponseWriter, r *http.Request) {
