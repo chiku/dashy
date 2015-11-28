@@ -12,12 +12,6 @@ import (
 	"github.com/gorilla/handlers"
 )
 
-// AJAX Request
-type dashy struct {
-	URL       string   `json:"url"`
-	Interests []string `json:"interests"`
-}
-
 func dashyHandler(w http.ResponseWriter, r *http.Request) {
 	dashy, err := app.NewDashy(r)
 	if err != nil {
@@ -73,5 +67,8 @@ func main() {
 		Handler: loggingHandler,
 	}
 	fmt.Println("Starting the application on http://localhost:3000")
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		fmt.Printf("failed to start application: %s\n", err)
+	}
 }
