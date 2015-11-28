@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -73,16 +74,26 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	file, err := os.OpenFile("dashy.log", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644)
+	if err != nil {
+		log.Fatalf("Failed to open log file: %s", err)
+	}
+	defer file.Close()
+	logWriter := io.MultiWriter(file, os.Stdout)
+	log.SetOutput(logWriter)
+
 	mux := http.DefaultServeMux
 	mux.HandleFunc("/dashy", dashyHandler)
 	mux.Handle("/", http.FileServer(http.Dir("./public")))
-	loggingHandler := handlers.CombinedLoggingHandler(os.Stdout, mux)
+
+	loggingHandler := handlers.CombinedLoggingHandler(logWriter, mux)
 	server := &http.Server{
 		Addr:    ":3000",
 		Handler: loggingHandler,
 	}
+
 	fmt.Println("Starting the application on http://localhost:3000")
-	err := server.ListenAndServe()
+	err = server.ListenAndServe()
 	if err != nil {
 		fmt.Printf("failed to start application: %s\n", err)
 	}
