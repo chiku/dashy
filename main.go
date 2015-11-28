@@ -12,6 +12,19 @@ import (
 	"github.com/gorilla/handlers"
 )
 
+const maxRetries = 3
+
+func fetchWithRetries(url string) (response *http.Response, err error) {
+	retries := 0
+	for err != nil && retries < maxRetries {
+		if err != nil {
+			log.Printf("error fetching data from Gocd (retry #%d): %s", retries+1, err)
+		}
+		response, err = http.Get(url)
+	}
+	return response, err
+}
+
 func dashyHandler(w http.ResponseWriter, r *http.Request) {
 	dashy, err := app.NewDashy(r)
 	if err != nil {
@@ -21,7 +34,7 @@ func dashyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := http.Get(dashy.URL)
+	response, err := fetchWithRetries(dashy.URL)
 	if err != nil {
 		errorMsg := "error fetching data from Gocd"
 		log.Printf("%s: %s", errorMsg, err)

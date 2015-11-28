@@ -15,7 +15,7 @@ gulp.task('go-restore', function(cb) {
 });
 
 gulp.task('go-build', ['go-restore'], function(cb) {
-    execCommand('go build -o out/dashy.exe', cb);
+    execCommand('go build -o out/dashy', cb);
 });
 
 gulp.task('go-test', ['go-restore'], function(cb) {
