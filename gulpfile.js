@@ -6,7 +6,7 @@ require('./tasks/assets');
 require('./tasks/package');
 
 gulp.task('go', ['go-build', 'go-test', 'go-format', 'go-lint']);
-gulp.task('js', ['js-build', 'js-lint']);
+gulp.task('js', ['js-build', 'js-lint', 'js-format']);
 gulp.task('html', ['html-build', 'html-format']);
 gulp.task('css', ['css-build', 'css-format']);
 gulp.task('favicon', ['favicon-build']);
