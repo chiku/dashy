@@ -53,7 +53,8 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 
 	for _, goPipelineGroup := range goDashboard.PipelineGroups {
 		for _, goPipeline := range goPipelineGroup.Pipelines {
-			if StringInSlice(goPipeline.Name, goDashboard.Interests) {
+			interestOrder := StringPosInSlice(goPipeline.Name, goDashboard.Interests)
+			if interestOrder != -1 {
 				stages := []SimpleStage{}
 				if len(goPipeline.Instances) > 0 {
 

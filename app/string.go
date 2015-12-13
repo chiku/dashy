@@ -1,10 +1,10 @@
 package app
 
-func StringInSlice(itemToSearch string, list []string) bool {
-	for _, item := range list {
+func StringPosInSlice(itemToSearch string, list []string) int {
+	for i, item := range list {
 		if item == itemToSearch {
-			return true
+			return i
 		}
 	}
-	return false
+	return -1
 }
