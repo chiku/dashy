@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -64,7 +65,7 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 						stages = append(stages, SimpleStage{Name: goStage.Name, Status: status})
 					}
 					if len(stages) > 0 {
-						dashboard.Pipelines = append(dashboard.Pipelines, SimplePipeline{Name: goPipeline.Name, Stages: stages})
+						dashboard.Pipelines = append(dashboard.Pipelines, (SimplePipeline{Name: goPipeline.Name, Stages: stages}).Order(interestOrder))
 					}
 				}
 			} else {
@@ -72,6 +73,8 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 			}
 		}
 	}
+
+	sort.Sort(ByOrder(dashboard.Pipelines))
 
 	return dashboard
 }

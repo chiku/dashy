@@ -226,6 +226,25 @@ var _ = Describe("GoDashboard", func() {
 			Expect(stages_2[0]).To(Equal(a.SimpleStage{Name: "Stage 2.2.1", Status: "Passed"}))
 			Expect(stages_2[1]).To(Equal(a.SimpleStage{Name: "Stage 2.2.2", Status: "Failed"}))
 		})
+
+		It("Is sorted based on the interest", func() {
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline Two", "Pipeline One"}}
+			simpleDashboard := goDashboard.ToSimpleDashboard()
+			pipelines := simpleDashboard.Pipelines
+			Expect(pipelines).To(HaveLen(2))
+			pipeline_1 := pipelines[0]
+			pipeline_2 := pipelines[1]
+			Expect(pipeline_1.Name).To(Equal("Pipeline Two"))
+			Expect(pipeline_2.Name).To(Equal("Pipeline One"))
+			stages_1 := pipeline_1.Stages
+			stages_2 := pipeline_2.Stages
+			Expect(stages_1).To(HaveLen(2))
+			Expect(stages_2).To(HaveLen(2))
+			Expect(stages_1[0]).To(Equal(a.SimpleStage{Name: "Stage 2.2.1", Status: "Passed"}))
+			Expect(stages_1[1]).To(Equal(a.SimpleStage{Name: "Stage 2.2.2", Status: "Failed"}))
+			Expect(stages_2[0]).To(Equal(a.SimpleStage{Name: "Stage 1.2.1", Status: "Cancelled"}))
+			Expect(stages_2[1]).To(Equal(a.SimpleStage{Name: "Stage 1.2.2", Status: "Failing"}))
+		})
 	})
 
 	Context("With pipeline-group, non-matching pipeline, instance and stage", func() {
