@@ -2,6 +2,10 @@
 
 set -e
 
+setup_environment() {
+  export PATH=$PATH:$GOPATH/bin
+}
+
 setup_os_prerequisites() {
   sudo apt-get install -y nodejs golang
 }
@@ -11,7 +15,7 @@ setup_npm_prerequisites() {
 }
 
 setup_godep() {
-  go install github.com/tools/godep
+  go get -t github.com/tools/godep
 }
 
 setup_gulp() {
@@ -26,6 +30,7 @@ run() {
 }
 
 main() {
+  setup_environment
   run setup_os_prerequisites
   run setup_npm_prerequisites
   run setup_godep
