@@ -15,7 +15,7 @@ setup_npm_prerequisites() {
 }
 
 setup_godep() {
-  go get -t github.com/tools/godep
+  go get github.com/tools/godep
 }
 
 setup_gulp() {
@@ -30,7 +30,7 @@ run() {
 }
 
 main() {
-  setup_environment
+  run setup_environment
   run setup_os_prerequisites
   run setup_npm_prerequisites
   run setup_godep
