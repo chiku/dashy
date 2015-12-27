@@ -12,8 +12,8 @@ import (
 )
 
 var _ = Describe("Dashy", func() {
-	Context("When accepting a HTTP request", func() {
-		It("Extracts information", func() {
+	Context("when accepting a HTTP request", func() {
+		It("extracts information", func() {
 			body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
 			request := &http.Request{Body: body}
 			dashy, err := a.NewDashy(request)
@@ -23,8 +23,8 @@ var _ = Describe("Dashy", func() {
 			Expect(dashy.Interests).To(Equal([]string{"Foo", "Bar"}))
 		})
 
-		Context("When reading body fails", func() {
-			It("Has an error", func() {
+		Context("when reading body fails", func() {
+			It("has an error", func() {
 				body := &BadReadCloser{err: errors.New("read error")}
 				request := &http.Request{Body: body}
 				dashy, err := a.NewDashy(request)
@@ -34,8 +34,8 @@ var _ = Describe("Dashy", func() {
 			})
 		})
 
-		Context("When JSON parse fails", func() {
-			It("Has an error", func() {
+		Context("when JSON parse fails", func() {
+			It("has an error", func() {
 				body := ioutil.NopCloser(bytes.NewBufferString(`BAD JSON`))
 				request := &http.Request{Body: body}
 				dashy, err := a.NewDashy(request)

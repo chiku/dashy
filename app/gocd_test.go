@@ -13,8 +13,8 @@ import (
 )
 
 var _ = Describe("Request Gocd", func() {
-	Context("When succeess", func() {
-		It("Converts external JSON to Godashboard", func() {
+	Context("when succeess", func() {
+		It("converts external JSON to Godashboard", func() {
 			const dashboardJSON = `[{ "pipelines": [{"name": "Pipeline"}] }]`
 
 			body := ioutil.NopCloser(bytes.NewBufferString(dashboardJSON))
@@ -29,8 +29,8 @@ var _ = Describe("Request Gocd", func() {
 		})
 	})
 
-	Context("When HTTP status code is not 200", func() {
-		It("Reports the incorrect HTTP status code", func() {
+	Context("when HTTP status code is not 200", func() {
+		It("reports the incorrect HTTP status code", func() {
 			response := &http.Response{StatusCode: http.StatusInternalServerError}
 			dashboard, err := a.ParseHTTPResponse(response)
 
@@ -39,8 +39,8 @@ var _ = Describe("Request Gocd", func() {
 		})
 	})
 
-	Context("When HTTP body is nil", func() {
-		It("Reports the absence of body", func() {
+	Context("when HTTP body is nil", func() {
+		It("reports the absence of body", func() {
 			response := &http.Response{StatusCode: http.StatusOK, Body: nil}
 			dashboard, err := a.ParseHTTPResponse(response)
 
@@ -49,8 +49,8 @@ var _ = Describe("Request Gocd", func() {
 		})
 	})
 
-	Context("When HTTP body read fails", func() {
-		It("Reports the error", func() {
+	Context("when HTTP body read fails", func() {
+		It("reports the error", func() {
 			body := &BadReadCloser{err: errors.New("read error")}
 			response := &http.Response{StatusCode: http.StatusOK, Body: body}
 			dashboard, err := a.ParseHTTPResponse(response)
@@ -60,8 +60,8 @@ var _ = Describe("Request Gocd", func() {
 		})
 	})
 
-	Context("When HTTP body JSON parse fails", func() {
-		It("Reports the error", func() {
+	Context("when HTTP body JSON parse fails", func() {
+		It("reports the error", func() {
 			body := ioutil.NopCloser(bytes.NewBufferString("Bad body"))
 			response := &http.Response{StatusCode: http.StatusOK, Body: body}
 			dashboard, err := a.ParseHTTPResponse(response)

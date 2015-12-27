@@ -9,8 +9,8 @@ import (
 )
 
 var _ = Describe("SimpleDashboard", func() {
-	Context("Marshal to JSON", func() {
-		It("Has key names of pipelines starting with lower-case", func() {
+	Context("marshal to JSON", func() {
+		It("has key names of pipelines starting with lower-case", func() {
 			simpleDashboard := a.SimpleDashboard{
 				Pipelines: []a.SimplePipeline{
 					a.SimplePipeline{
@@ -31,8 +31,8 @@ var _ = Describe("SimpleDashboard", func() {
 		})
 	})
 
-	Context("Sort by order", func() {
-		It("Sorts in ascending order", func() {
+	Context("sort by order", func() {
+		It("sorts in ascending order", func() {
 			p1 := (a.SimplePipeline{
 				Name:   "PipelineOne",
 				Stages: []a.SimpleStage{a.SimpleStage{Name: "Stage", Status: "Passed"}},
