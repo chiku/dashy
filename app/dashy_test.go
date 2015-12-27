@@ -13,14 +13,30 @@ import (
 
 var _ = Describe("Dashy", func() {
 	Context("when accepting a HTTP request", func() {
-		It("extracts information", func() {
-			body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
-			request := &http.Request{Body: body}
-			dashy, err := a.NewDashy(request)
+		body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
+		request := &http.Request{Body: body}
+		dashy, err := a.NewDashy(request)
 
+		It("doesn't have an error", func() {
 			Expect(err).To(BeNil())
+		})
+
+		It("extracts URL", func() {
 			Expect(dashy.URL).To(Equal("http://gocd.com:8153"))
-			Expect(dashy.Interests).To(Equal([]string{"Foo", "Bar"}))
+		})
+
+		It("extracts interests by name", func() {
+			interests := dashy.Interests
+			position, displayName := interests.PipelineName("Bar")
+			Expect(position).To(Equal(1))
+			Expect(displayName).To(Equal("Bar"))
+		})
+
+		It("doesn't extract not-existing interest name", func() {
+			interests := dashy.Interests
+			position, displayName := interests.PipelineName("NotExisting")
+			Expect(position).To(Equal(-1))
+			Expect(displayName).To(BeEmpty())
 		})
 
 		Context("when reading body fails", func() {

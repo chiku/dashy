@@ -18,7 +18,8 @@ var _ = Describe("GoDashboard", func() {
 
 	Context("with pipeline-group without pipelines", func() {
 		goPipelineGroups := []a.GoPipelineGroup{}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline"}}
+		interests := a.NewInterests().Add("Pipeline")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("has no simple-pipelines", func() {
@@ -31,7 +32,8 @@ var _ = Describe("GoDashboard", func() {
 		goInstances := []a.GoInstance{}
 		goPipelines := []a.GoPipeline{{Instances: goInstances}}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline"}}
+		interests := a.NewInterests().Add("Pipeline")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("has no simple-pipelines", func() {
@@ -45,7 +47,8 @@ var _ = Describe("GoDashboard", func() {
 		goInstances := []a.GoInstance{{Stages: goStages}}
 		goPipelines := []a.GoPipeline{{Instances: goInstances}}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline"}}
+		interests := a.NewInterests().Add("Pipeline")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("has no simple-pipelines", func() {
@@ -59,7 +62,8 @@ var _ = Describe("GoDashboard", func() {
 		goInstances := []a.GoInstance{{Stages: goStages}}
 		goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances}}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+		interests := a.NewInterests().Add("Pipeline One")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("has a simple-pipeline", func() {
@@ -85,7 +89,8 @@ var _ = Describe("GoDashboard", func() {
 		goInstances := []a.GoInstance{goOldInstance, goNewInstance}
 		goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances}}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+		interests := a.NewInterests().Add("Pipeline One")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("ignores older instances", func() {
@@ -107,7 +112,8 @@ var _ = Describe("GoDashboard", func() {
 			goInstances := []a.GoInstance{goMinus2Instance, goMinus1Instance, goLatestInstance}
 			goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances}}
 			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			interests := a.NewInterests().Add("Pipeline One")
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 			simpleDashboard := goDashboard.ToSimpleDashboard()
 
 			It("uses the status of the older build", func() {
@@ -128,7 +134,8 @@ var _ = Describe("GoDashboard", func() {
 			goInstances := []a.GoInstance{goMinus1Instance, goLatestInstance}
 			goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances}}
 			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			interests := a.NewInterests().Add("Pipeline One")
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 			simpleDashboard := goDashboard.ToSimpleDashboard()
 
 			It("has unknown status", func() {
@@ -149,7 +156,8 @@ var _ = Describe("GoDashboard", func() {
 				goInstances := []a.GoInstance{goMinus1Instance, goLatestInstance}
 				goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances, PreviousInstance: goPreviousInstance}}
 				goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-				goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+				interests := a.NewInterests().Add("Pipeline One")
+				goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 				simpleDashboard := goDashboard.ToSimpleDashboard()
 
 				It("uses the status of previous instance", func() {
@@ -170,7 +178,8 @@ var _ = Describe("GoDashboard", func() {
 			goInstances := []a.GoInstance{goLatestInstance}
 			goPipelines := []a.GoPipeline{{Name: "Pipeline One", Instances: goInstances, PreviousInstance: goPreviousInstance}}
 			goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One"}}
+			interests := a.NewInterests().Add("Pipeline One")
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 			simpleDashboard := goDashboard.ToSimpleDashboard()
 
 			It("uses marks the status as recovering", func() {
@@ -207,7 +216,8 @@ var _ = Describe("GoDashboard", func() {
 		goPipeline_2 := a.GoPipeline{Instances: goInstances_2, Name: "Pipeline Two"}
 		goPipelines := []a.GoPipeline{goPipeline_1, goPipeline_2}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline One", "Pipeline Two"}}
+		interests := a.NewInterests().Add("Pipeline One").Add("Pipeline Two")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("has simple-pipelines", func() {
@@ -228,7 +238,8 @@ var _ = Describe("GoDashboard", func() {
 		})
 
 		It("is sorted based on the interest", func() {
-			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline Two", "Pipeline One"}}
+			interests := a.NewInterests().Add("Pipeline Two").Add("Pipeline One")
+			goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 			simpleDashboard := goDashboard.ToSimpleDashboard()
 			pipelines := simpleDashboard.Pipelines
 			Expect(pipelines).To(HaveLen(2))
@@ -252,7 +263,8 @@ var _ = Describe("GoDashboard", func() {
 		goInstances := []a.GoInstance{{Stages: goStages}}
 		goPipelines := []a.GoPipeline{{Instances: goInstances, Name: "Pipeline One"}}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: []string{"Pipeline"}}
+		interests := a.NewInterests().Add("Pipeline")
+		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
 		It("ignores non-matching pipelines", func() {

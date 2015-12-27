@@ -34,7 +34,7 @@ type GoPipelineGroup struct {
 }
 type GoDashboard struct {
 	PipelineGroups []GoPipelineGroup
-	Interests      []string
+	Interests      *Interests
 }
 
 func NewGoPipelineGroups(body []byte) ([]GoPipelineGroup, error) {
@@ -54,7 +54,7 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 
 	for _, goPipelineGroup := range goDashboard.PipelineGroups {
 		for _, goPipeline := range goPipelineGroup.Pipelines {
-			interestOrder := StringPosInSlice(goPipeline.Name, goDashboard.Interests)
+			interestOrder, _ := goDashboard.Interests.PipelineName(goPipeline.Name)
 			if interestOrder != -1 {
 				stages := []SimpleStage{}
 				if len(goPipeline.Instances) > 0 {

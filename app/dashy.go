@@ -7,9 +7,14 @@ import (
 	"net/http"
 )
 
-type dashy struct {
+type dashyRequest struct {
 	URL       string   `json:"url"`
 	Interests []string `json:"interests"`
+}
+
+type dashy struct {
+	URL       string
+	Interests *Interests
 }
 
 func NewDashy(request *http.Request) (*dashy, error) {
@@ -20,11 +25,19 @@ func NewDashy(request *http.Request) (*dashy, error) {
 
 	defer request.Body.Close()
 
-	d := &dashy{}
+	d := &dashyRequest{}
 	err = json.Unmarshal(body, d)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse JSON: %s", err)
 	}
 
-	return d, nil
+	interests := NewInterests()
+	for _, interest := range d.Interests {
+		interests.Add(interest)
+	}
+
+	return &dashy{
+		URL:       d.URL,
+		Interests: interests,
+	}, nil
 }
