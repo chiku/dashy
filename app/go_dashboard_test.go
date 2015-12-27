@@ -216,7 +216,7 @@ var _ = Describe("GoDashboard", func() {
 		goPipeline_2 := a.GoPipeline{Instances: goInstances_2, Name: "Pipeline Two"}
 		goPipelines := []a.GoPipeline{goPipeline_1, goPipeline_2}
 		goPipelineGroups := []a.GoPipelineGroup{{Pipelines: goPipelines}}
-		interests := a.NewInterests().Add("Pipeline One").Add("Pipeline Two")
+		interests := a.NewInterests().Add("Pipeline One:>Pipeline 1").Add("Pipeline Two")
 		goDashboard := a.GoDashboard{PipelineGroups: goPipelineGroups, Interests: interests}
 		simpleDashboard := goDashboard.ToSimpleDashboard()
 
@@ -225,7 +225,7 @@ var _ = Describe("GoDashboard", func() {
 			Expect(pipelines).To(HaveLen(2))
 			pipeline_1 := pipelines[0]
 			pipeline_2 := pipelines[1]
-			Expect(pipeline_1.Name).To(Equal("Pipeline One"))
+			Expect(pipeline_1.Name).To(Equal("Pipeline 1"))
 			Expect(pipeline_2.Name).To(Equal("Pipeline Two"))
 			stages_1 := pipeline_1.Stages
 			stages_2 := pipeline_2.Stages

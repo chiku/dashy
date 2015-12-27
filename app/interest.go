@@ -8,9 +8,15 @@ type Interest struct {
 }
 
 func NewInterest(rawName string) Interest {
+	parts := strings.Split(rawName, ":>")
+	name, displayName := parts[0], parts[0]
+	if len(parts) >= 2 && parts[1] != "" {
+		displayName = parts[1]
+	}
+
 	return Interest{
-		Name:        rawName,
-		DisplayName: rawName,
+		Name:        name,
+		DisplayName: displayName,
 	}
 }
 

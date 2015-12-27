@@ -29,6 +29,22 @@ var _ = Describe("Interest", func() {
 		})
 	})
 
+	Context("when with a display name", func() {
+		interest := a.NewInterest("Foo:>New Foo")
+
+		It("extracts information given the original name", func() {
+			match, displayName := interest.PipelineName("Foo")
+			Expect(match).To(BeTrue())
+			Expect(displayName).To(Equal("New Foo"))
+		})
+
+		It("doesn't extract information given the display name", func() {
+			match, displayName := interest.PipelineName("New Foo")
+			Expect(match).To(BeFalse())
+			Expect(displayName).To(BeEmpty())
+		})
+	})
+
 	Context("when with an empty name", func() {
 		interest := a.NewInterest("")
 
@@ -42,9 +58,9 @@ var _ = Describe("Interest", func() {
 
 var _ = Describe("Interests", func() {
 	Context("when created with values", func() {
-		interests := a.NewInterests().Add("Foo").Add("Bar").Add("Baz")
+		interests := a.NewInterests().Add("Foo:>A Foo").Add("Bar:>A Bar").Add("Baz")
 
-		Context("when retrieving by a name", func() {
+		Context("when retrieving by a name without a display name", func() {
 			position, displayName := interests.PipelineName("Baz")
 
 			It("fetches the position in the interest", func() {
@@ -56,15 +72,15 @@ var _ = Describe("Interests", func() {
 			})
 		})
 
-		Context("when retrieving by another name", func() {
-			position, displayName := interests.PipelineName("Foo")
+		Context("when retrieving by a name with a display name", func() {
+			position, displayName := interests.PipelineName("Bar")
 
 			It("fetches the position in the interest", func() {
-				Expect(position).To(Equal(0))
+				Expect(position).To(Equal(1))
 			})
 
-			It("fetches the name", func() {
-				Expect(displayName).To(Equal("Foo"))
+			It("fetches the display name", func() {
+				Expect(displayName).To(Equal("A Bar"))
 			})
 		})
 

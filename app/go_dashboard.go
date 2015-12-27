@@ -54,7 +54,7 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 
 	for _, goPipelineGroup := range goDashboard.PipelineGroups {
 		for _, goPipeline := range goPipelineGroup.Pipelines {
-			interestOrder, _ := goDashboard.Interests.PipelineName(goPipeline.Name)
+			interestOrder, displayName := goDashboard.Interests.PipelineName(goPipeline.Name)
 			if interestOrder != -1 {
 				stages := []SimpleStage{}
 				if len(goPipeline.Instances) > 0 {
@@ -65,7 +65,7 @@ func (goDashboard *GoDashboard) ToSimpleDashboard() *SimpleDashboard {
 						stages = append(stages, SimpleStage{Name: goStage.Name, Status: status})
 					}
 					if len(stages) > 0 {
-						dashboard.Pipelines = append(dashboard.Pipelines, (SimplePipeline{Name: goPipeline.Name, Stages: stages}).Order(interestOrder))
+						dashboard.Pipelines = append(dashboard.Pipelines, (SimplePipeline{Name: displayName, Stages: stages}).Order(interestOrder))
 					}
 				}
 			} else {
