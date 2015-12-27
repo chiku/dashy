@@ -1,10 +1,20 @@
 #/bin/sh
 
-install_prerequisites() {
+set -e
+
+setup_os_prerequisites() {
   sudo apt-get install -y nodejs golang
 }
 
-gulp() {
+setup_npm_prerequisites() {
+  npm install
+}
+
+setup_godep() {
+  go install github.com/tools/godep
+}
+
+setup_gulp() {
   ./node_modules/.bin/gulp
 }
 
@@ -15,8 +25,11 @@ run() {
   echo "--- End $commnd ---"
 }
 
+main() {
+  run setup_os_prerequisites
+  run setup_npm_prerequisites
+  run setup_godep
+  run setup_gulp
+}
 
-set -e
-
-run install_prerequisites
-run gulp
+main
