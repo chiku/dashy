@@ -17,7 +17,6 @@ install_golang() {
   pushd $HOME
   file=go1.5.2.linux-amd64.tar.gz
   wget --continue "https://storage.googleapis.com/golang/$file" -O "$HOME/$file"
-  sha1sum -c - <<<"cae87ed095e8d94a81871281d35da7829bd1234e $file"
   tar -zxvf $file
   popd
 }
