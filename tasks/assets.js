@@ -1,29 +1,31 @@
 var gulp = require('gulp');
-var minifyCss = require('gulp-minify-css');
-var minifyHTML = require('gulp-minify-html');
-var prettify = require('gulp-jsbeautifier');
+var cssnano = require('gulp-cssnano');
+var htmlmin = require('gulp-htmlmin');
+var jsbeautifier = require('gulp-jsbeautifier');
 
 gulp.task('css-build', function() {
     return gulp.src('./public/main.css')
-        .pipe(minifyCss())
+        .pipe(cssnano())
         .pipe(gulp.dest('./out/public'));
 });
 
 gulp.task('css-format', function() {
     return gulp.src(['./public/main.css'])
-        .pipe(prettify())
+        .pipe(jsbeautifier())
         .pipe(gulp.dest('./public'));
 });
 
 gulp.task('html-build', function() {
     return gulp.src('./public/index.html')
-        .pipe(minifyHTML())
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
         .pipe(gulp.dest('./out/public'));
 });
 
 gulp.task('html-format', function() {
     return gulp.src(['./public/index.html'])
-        .pipe(prettify())
+        .pipe(jsbeautifier())
         .pipe(gulp.dest('./public'));
 });
 
