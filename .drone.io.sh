@@ -8,9 +8,12 @@ setup_environment() {
 }
 
 install_os_packages() {
+  sudo apt-get update
+  sudo apt-get remove --purge nodejs npm
+  sudo apt-get install -y curl wget
   curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
   sudo apt-get update
-  sudo apt-get install -y nodejs wget
+  sudo apt-get install -y nodejs
 }
 
 install_golang() {
