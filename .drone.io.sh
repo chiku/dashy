@@ -1,25 +1,36 @@
-#/bin/sh
+#/bin/bash
 
 set -e
 
 setup_environment() {
-  export PATH=$PATH:$GOPATH/bin
+  export GOROOT=$HOME/go
+  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 }
 
-setup_os_prerequisites() {
+install_os_packages() {
   sudo apt-get update
-  sudo apt-get install -y nodejs golang
+  sudo apt-get install -y nodejs wget
 }
 
-setup_npm_prerequisites() {
+install_golang() {
+  mkdir -p $GOROOT
+  pushd $HOME
+  file=go1.5.2.linux-amd64.tar.gz
+  wget --continue "https://storage.googleapis.com/golang/$file" -O "$HOME/$file"
+  sha1sum -c - <<<"cae87ed095e8d94a81871281d35da7829bd1234e $file"
+  tar -zxvf $file
+  popd
+}
+
+install_node_deps() {
   npm install
 }
 
-setup_godep() {
+install_golang_deps() {
   go get github.com/tools/godep
 }
 
-setup_gulp() {
+build() {
   ./node_modules/.bin/gulp
 }
 
@@ -32,10 +43,11 @@ run() {
 
 main() {
   run setup_environment
-  run setup_os_prerequisites
-  run setup_npm_prerequisites
-  run setup_godep
-  run setup_gulp
+  run install_os_packages
+  run install_golang
+  run install_node_deps
+  run install_golang_deps
+  run build
 }
 
 main
