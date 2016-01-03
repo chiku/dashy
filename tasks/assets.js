@@ -1,3 +1,9 @@
+// tasks/assets.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var gulp = require('gulp');
 var cssnano = require('gulp-cssnano');
 var htmlmin = require('gulp-htmlmin');

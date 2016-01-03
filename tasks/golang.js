@@ -1,3 +1,9 @@
+// tasks/golang.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var exec = require('child_process').exec;
 
 var gulp = require('gulp');

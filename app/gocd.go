@@ -1,3 +1,9 @@
+// app/gocd.go
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 package app
 
 import (

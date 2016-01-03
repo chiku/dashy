@@ -1,3 +1,9 @@
+// tasks/javascript.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
