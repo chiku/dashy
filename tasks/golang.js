@@ -10,15 +10,15 @@ var execCommand = function(command, cb) {
     });
 };
 
-gulp.task('go-restore', function(cb) {
+gulp.task('go-prereqs', function(cb) {
     execCommand('godep restore', cb);
 });
 
-gulp.task('go-build', ['go-restore'], function(cb) {
+gulp.task('go-compile', ['go-prereqs'], function(cb) {
     execCommand('go build -o out/dashy', cb);
 });
 
-gulp.task('go-test', ['go-restore'], function(cb) {
+gulp.task('go-test', ['go-prereqs'], function(cb) {
     execCommand('go test ./app', cb);
 });
 

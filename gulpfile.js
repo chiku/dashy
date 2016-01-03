@@ -1,19 +1,33 @@
 var gulp = require('gulp');
+var del = require('del');
+var zip = require('gulp-zip');
 
 require('./tasks/golang');
 require('./tasks/javascript');
 require('./tasks/assets');
-require('./tasks/package');
 
-gulp.task('go', ['go-build', 'go-test', 'go-format', 'go-lint']);
-gulp.task('js', ['js-build', 'js-lint', 'js-format']);
-gulp.task('html', ['html-build', 'html-format']);
-gulp.task('css', ['css-build', 'css-format']);
-gulp.task('favicon', ['favicon-build']);
+gulp.task('package', ['build'], function() {
+    return gulp.src('./out/**')
+        .pipe(zip('dashy.zip'))
+        .pipe(gulp.dest('./'));
+});
 
+gulp.task('clean', function() {
+    return del(['./out/**/*', './dashy.zip']);
+});
+
+gulp.task('go', ['go-compile', 'go-test', 'go-format', 'go-lint']);
+gulp.task('js', ['js-compile', 'js-lint', 'js-format']);
+gulp.task('html', ['html-compile', 'html-format']);
+gulp.task('css', ['css-compile', 'css-format']);
+gulp.task('favicon', ['favicon-compile']);
+
+gulp.task('prereqs', ['go-prereqs']);
 gulp.task('format', ['go-format', 'js-format', 'css-format', 'html-format']);
 gulp.task('lint', ['go-lint', 'js-lint']);
-gulp.task('build', ['go-build', 'js-build', 'html-build', 'css-build', 'favicon-build']);
+gulp.task('compile', ['go-compile', 'js-compile', 'html-compile', 'css-compile', 'favicon-compile']);
 gulp.task('test', ['go-test']);
 
-gulp.task('default', ['go', 'js', 'css', 'html', 'favicon', 'package']);
+gulp.task('build', ['format', 'lint', 'compile']);
+
+gulp.task('default', ['build', 'test', 'package']);
