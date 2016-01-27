@@ -1,7 +1,7 @@
 var virtualDom = require("virtual-dom");
 var nanoajax = require("nanoajax");
 
-var config = window.config;
+var config = window.config || {};
 
 var h = virtualDom.h;
 var diff = virtualDom.diff;
@@ -46,36 +46,46 @@ var renderError = function(message) {
     }, message);
 };
 
-
 var isSuccess = function(code) {
     return code >= 200 && code <= 299;
 };
 
-var dash = function() {
-        nanoajax.ajax({
-            url: "/dashy",
-            type: "POST",
-            body: requestBody
-        }, function(code, responseText, request) {
-            if (isSuccess(code)) {
-                newTree = renderPipeline(JSON.parse(responseText));
-            } else {
-                newTree = renderError(responseText || "Error!");
-            }
-            patches = diff(tree, newTree);
-            rootNode = patch(rootNode, patches);
-            tree = newTree;
-            console.log("tick!");
-        });
-    },
-
-    tree = h("div", {
+var dashy = (function() {
+    var tree = h("div", {
         id: "dashboard"
-    }),
-    newTree,
-    patches,
-    rootNode = createElement(tree);
+    });
+    var newTree = tree;
+    var patches = function() {
+        return diff(tree, newTree);
+    };
+    var rootNode = createElement(tree);
 
-document.body.appendChild(rootNode);
-dash();
-setInterval(dash, interval);
+    var responseHandler = function(code, responseText, request) {
+        if (isSuccess(code)) {
+            newTree = renderPipeline(JSON.parse(responseText));
+        } else {
+            newTree = renderError(responseText || "Error!");
+        }
+        rootNode = patch(rootNode, patches());
+        tree = newTree;
+        console.log("tick!");
+    };
+    var ajaxOptions = {
+        url: "/dashy",
+        type: "POST",
+        body: requestBody
+    };
+
+    var tick = function() {
+        nanoajax.ajax(ajaxOptions, responseHandler);
+    };
+
+
+    var init = function() {
+        document.body.appendChild(rootNode);
+        tick();
+        setInterval(tick, interval);
+    };
+
+    init();
+}());
