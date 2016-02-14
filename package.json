@@ -13,8 +13,8 @@
   },
   "homepage": "https://github.com/chiku/dashy#readme",
   "dependencies": {
-    "nanoajax": "^0.4.0",
-    "virtual-dom": "^2.1.1"
+    "domchanger": "^1.0.2",
+    "nanoajax": "^0.4.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
