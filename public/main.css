@@ -47,11 +47,6 @@
     background: linear-gradient(to bottom, #aeaeae, #858585);
 }
 
-#dashboard.error {
-    font-size: 12vmax;
-    color: #8a0000;
-}
-
 @keyframes scrolling {
     100% {
         background-position: 256px 0px;

@@ -12,18 +12,15 @@ var isSuccess = function(code) {
     return code >= 200 && code <= 299;
 };
 
-var DashyError = function() {
-    var errorProps = {
-        id: "dashboard",
-        class: "error"
-    };
-    var render = function(message) {
-        return ["div", errorProps, message];
-    };
-
-    return {
-        render: render
-    };
+var asError = function(message) {
+    message || (message = "Error!");
+    return [{
+        name: message,
+        stages: [{
+            name: "Error",
+            status: "Failed"
+        }]
+    }];
 };
 
 var Stage = function() {
@@ -99,12 +96,12 @@ var PipelineList = function() {
 };
 
 var Dashy = function(emit, refresh) {
-    var renderedItem = ["div", "Initializing..."];
+    var pipelines = [];
     var responseHandler = function(code, responseText, request) {
         if (isSuccess(code)) {
-            renderedItem = [PipelineList, JSON.parse(responseText)];
+            pipelines = JSON.parse(responseText);
         } else {
-            renderedItem = [DashyError, (responseText || "Error!")];
+            pipelines = asError(responseText);
         }
         refresh();
         console.log("tick!");
@@ -118,7 +115,7 @@ var Dashy = function(emit, refresh) {
         nanoajax.ajax(ajaxOptions, responseHandler);
     };
     var render = function() {
-        return renderedItem;
+        return [PipelineList, pipelines];
     };
 
     tick();
