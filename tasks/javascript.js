@@ -8,6 +8,7 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var prettify = require('gulp-jsbeautifier');
+var sourcemaps = require('gulp-sourcemaps');
 
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
@@ -18,7 +19,11 @@ gulp.task('js-compile', function() {
         .bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
+        .pipe(sourcemaps.init({
+            loadMaps: true
+        }))
         .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./out/public'));
 });
 
