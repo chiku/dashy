@@ -15,6 +15,7 @@
 .stage {
     flex-basis: 100%;
     color: #676767;
+    font-size: 0.75vmax;
 }
 
 .stage.passed {
