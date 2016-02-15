@@ -3,6 +3,7 @@
     margin-top: -5.75vmax;
     font-size: 5vmax;
     flex-basis: 100%;
+    overflow: hidden;
 }
 
 .stage-container {
