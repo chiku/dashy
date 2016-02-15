@@ -13,7 +13,9 @@ var isSuccess = function(code) {
 };
 
 var asError = function(message) {
-    message || (message = "Error!");
+    if (message === undefined || message === null) {
+        message = "Error - is server reachable?";
+    }
     return [{
         name: message,
         stages: [{
