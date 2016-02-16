@@ -115,11 +115,12 @@ var Dashy = function(emit, refresh) {
     var responseHandler = function(code, responseText, request) {
         if (isSuccess(code)) {
             pipelines = JSON.parse(responseText);
+            console.log("tick!");
         } else {
             pipelines = asError(responseText, code);
+            console.error(responseText);
         }
         refresh();
-        console.log("tick!");
     };
     var ajaxOptions = {
         url: "/dashy",
