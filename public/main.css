@@ -1,3 +1,27 @@
+.pipeline-group {
+    display: flex;
+}
+
+.pipeline-group-1 .pipeline {
+    width: 100%;
+}
+
+.pipeline-group-2 .pipeline {
+    width: 50%;
+}
+
+.pipeline-group-3 .pipeline {
+    width: 33.3%;
+}
+
+.pipeline-group-4 .pipeline {
+    width: 25%;
+}
+
+.pipeline-group-5 .pipeline {
+    width: 20%;
+}
+
 .pipeline-name {
     height: 6vmax;
     margin-top: -5.75vmax;

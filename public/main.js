@@ -7,6 +7,7 @@ var requestBody = JSON.stringify({
     interests: config.interests
 });
 var interval = config.interval || 30000;
+var groupSize = config.groupSize || 1;
 
 var isSuccess = function(code) {
     return code >= 200 && code <= 299;
@@ -86,10 +87,22 @@ var PipelineList = function() {
     var pipelineListProps = {
         id: "dashboard"
     };
+    var mapper = function(pipeline) {
+        return [Pipeline, pipeline];
+    };
+    var groupProps = {
+        class: "pipeline-group pipeline-group-" + groupSize
+    };
     var render = function(pipelines) {
-        return ["div", pipelineListProps, pipelines.map(function(pipeline) {
-            return [Pipeline, pipeline];
-        })];
+        var len = pipelines.length,
+            groups = [],
+            i,
+            group;
+        for (i = 0; i < len; i += groupSize) {
+            group = pipelines.slice(i, i + groupSize).map(mapper);
+            groups.push(["div", groupProps, group]);
+        }
+        return ["div", pipelineListProps, groups];
     };
 
     return {
