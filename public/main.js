@@ -29,7 +29,7 @@ var asError = function(message, code) {
 var Stage = function() {
     var render = function(stage) {
         var stageProps = {
-            class: "stage " + stage.status.toLowerCase()
+            "class": "stage " + stage.status.toLowerCase()
         };
         return ["div", stageProps, stage.name];
     };
@@ -41,7 +41,7 @@ var Stage = function() {
 
 var StageList = function() {
     var stageContainerProps = {
-        class: "stage-container"
+        "class": "stage-container"
     };
     var render = function(stages) {
         return ["div", stageContainerProps, stages.map(function(stage) {
@@ -56,7 +56,7 @@ var StageList = function() {
 
 var PipelineName = function() {
     var pipelineNameProps = {
-        class: "pipeline-name"
+        "class": "pipeline-name"
     };
     var render = function(name) {
         return ["div", pipelineNameProps, name];
@@ -69,7 +69,7 @@ var PipelineName = function() {
 
 var Pipeline = function() {
     var pipelineProps = {
-        class: "pipeline"
+        "class": "pipeline"
     };
     var render = function(pipeline) {
         return ["div", pipelineProps, [
@@ -84,14 +84,11 @@ var Pipeline = function() {
 };
 
 var PipelineList = function() {
-    var pipelineListProps = {
-        id: "dashboard"
-    };
     var mapper = function(pipeline) {
         return [Pipeline, pipeline];
     };
     var groupProps = {
-        class: "pipeline-group pipeline-group-" + groupSize
+        "class": "pipeline-group pipeline-group-" + groupSize
     };
     var render = function(pipelines) {
         var len = pipelines.length,
@@ -102,7 +99,7 @@ var PipelineList = function() {
             group = pipelines.slice(i, i + groupSize).map(mapper);
             groups.push(["div", groupProps, group]);
         }
-        return ["div", pipelineListProps, groups];
+        return groups;
     };
 
     return {
@@ -141,5 +138,4 @@ var Dashy = function(emit, refresh) {
     };
 };
 
-var instance = domChanger(Dashy, document.getElementById("app"));
-instance.update();
+domChanger(Dashy, document.getElementById("app")).update();
