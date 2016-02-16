@@ -6,7 +6,7 @@ var requestBody = JSON.stringify({
     url: config.url,
     interests: config.interests
 });
-var interval = config.interval;
+var interval = config.interval || 30000;
 
 var isSuccess = function(code) {
     return code >= 200 && code <= 299;
