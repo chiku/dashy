@@ -13,9 +13,9 @@ var isSuccess = function(code) {
     return code >= 200 && code <= 299;
 };
 
-var asError = function(message) {
-    if (message === undefined || message === null) {
-        message = "Error - is server reachable?";
+var asError = function(message, code) {
+    if (code === 0) {
+        message = "Error - server down";
     }
     return [{
         name: message,
@@ -116,7 +116,7 @@ var Dashy = function(emit, refresh) {
         if (isSuccess(code)) {
             pipelines = JSON.parse(responseText);
         } else {
-            pipelines = asError(responseText);
+            pipelines = asError(responseText, code);
         }
         refresh();
         console.log("tick!");
