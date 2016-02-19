@@ -1,4 +1,4 @@
-var domChanger = require("domChanger");
+var domChanger = require("domchanger");
 var nanoajax = require("nanoajax");
 var config = window.config || {};
 
