@@ -1,6 +1,5 @@
 # Project specific
 out/
-public/config.css
 public/config.js
 dashy.zip
 dashy.log
@@ -30,9 +29,8 @@ _testmain.go
 *.test
 *.prof
 
-# Godep
-Godeps/_workspace
-Godeps/Readme
+# Golang
+vendor
 
 # Node
 node_modules/

@@ -17,7 +17,7 @@ var execCommand = function(command, cb) {
 };
 
 gulp.task('go-prereqs', function(cb) {
-    execCommand('godep restore', cb);
+    execCommand('glide install', cb);
 });
 
 gulp.task('go-compile', ['go-prereqs'], function(cb) {

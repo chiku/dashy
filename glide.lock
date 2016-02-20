@@ -1,0 +1,36 @@
+hash: 8c4f00de9a391b0848d8303d204dd8bbf585847a69073074b974b8b992a309b9
+updated: 2016-02-20T10:39:43.260660342+05:30
+imports:
+- name: github.com/gorilla/handlers
+  version: 40694b40f4a928c062f56849989d3e9cd0570e5f
+- name: github.com/onsi/ginkgo
+  version: 25380c62e61d3f90436be125b8127dbae578fdef
+  subpackages:
+  - config
+  - internal/codelocation
+  - internal/failer
+  - internal/remote
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
+  - reporters
+  - reporters/stenographer
+  - types
+  - internal/containernode
+  - internal/leafnodes
+  - internal/spec
+  - internal/specrunner
+- name: github.com/onsi/gomega
+  version: a2ab8644e0b6a33df2cbe44673bd0f6ebba9abc3
+  subpackages:
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/testingtsupport
+  - matchers
+  - types
+  - format
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+devImports: []
