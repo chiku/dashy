@@ -22,8 +22,8 @@ gulp.task('clean', function() {
     return del(['./out/**/*', './dashy.zip']);
 });
 
-gulp.task('go', ['go-compile', 'go-test', 'go-format', 'go-lint']);
-gulp.task('js', ['js-compile', 'js-lint', 'js-format']);
+gulp.task('go', ['go-compile', 'go-test', 'go-lint', 'go-format']);
+gulp.task('js', ['js-compile', 'js-test', 'js-lint', 'js-format']);
 gulp.task('html', ['html-compile', 'html-format']);
 gulp.task('css', ['css-compile', 'css-format']);
 gulp.task('favicon', ['favicon-compile']);
@@ -32,7 +32,7 @@ gulp.task('prereqs', ['go-prereqs']);
 gulp.task('format', ['go-format', 'js-format', 'css-format', 'html-format']);
 gulp.task('lint', ['go-lint', 'js-lint']);
 gulp.task('compile', ['go-compile', 'js-compile', 'html-compile', 'css-compile', 'favicon-compile']);
-gulp.task('test', ['go-test']);
+gulp.task('test', ['go-test', 'js-test']);
 
 gulp.task('build', ['format', 'lint', 'compile']);
 

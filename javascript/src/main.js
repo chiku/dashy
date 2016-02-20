@@ -43,33 +43,7 @@ var asError = function(message, code) {
     }];
 };
 
-var Stage = function() {
-    var render = function(stage) {
-        var stageProps = {
-            "class": "stage " + stage.status.toLowerCase()
-        };
-        return ["div", stageProps, stage.name];
-    };
-
-    return {
-        render: render
-    };
-};
-
-var StageList = function() {
-    var stageContainerProps = {
-        "class": "stage-container"
-    };
-    var render = function(stages) {
-        return ["div", stageContainerProps, stages.map(function(stage) {
-            return [Stage, stage];
-        })];
-    };
-
-    return {
-        render: render
-    };
-};
+var StageList = require("./components/StageList");
 
 var PipelineName = function() {
     var pipelineNameProps = {
