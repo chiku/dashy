@@ -1,0 +1,23 @@
+var PipelineGroup = require("./PipelineGroup");
+
+var PipelineList = function(groupSize) {
+    return function() {
+        var render = function(pipelines) {
+            var len = pipelines.length,
+                groups = [],
+                i;
+            for (i = 0; i < len; i += groupSize) {
+                groups.push(pipelines.slice(i, i + groupSize));
+            }
+            return groups.map(function(group) {
+                return [PipelineGroup, group];
+            });
+        };
+
+        return {
+            render: render
+        };
+    };
+};
+
+module.exports = PipelineList;

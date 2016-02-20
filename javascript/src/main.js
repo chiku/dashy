@@ -1,7 +1,6 @@
 var domChanger = require("domchanger");
 var nanoajax = require("nanoajax");
-
-var Pipeline = require("./components/Pipeline");
+var PipelineLister = require("./components/PipelineList");
 
 var config = window.config || {};
 
@@ -46,30 +45,6 @@ var asError = function(message, code) {
     }];
 };
 
-var PipelineList = function() {
-    var mapper = function(pipeline) {
-        return [Pipeline, pipeline];
-    };
-    var groupProps = {
-        "class": "pipeline-group pipeline-group-" + groupSize
-    };
-    var render = function(pipelines) {
-        var len = pipelines.length,
-            groups = [],
-            i,
-            group;
-        for (i = 0; i < len; i += groupSize) {
-            group = pipelines.slice(i, i + groupSize).map(mapper);
-            groups.push(["div", groupProps, group]);
-        }
-        return groups;
-    };
-
-    return {
-        render: render
-    };
-};
-
 var Dashy = function(emit, refresh) {
     var pipelines = [];
     var responseHandler = function(code, responseText, request) {
@@ -91,7 +66,7 @@ var Dashy = function(emit, refresh) {
         nanoajax.ajax(ajaxOptions, responseHandler);
     };
     var render = function() {
-        return [PipelineList, pipelines];
+        return [PipelineLister(groupSize), pipelines];
     };
 
     tick();
