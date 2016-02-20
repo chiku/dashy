@@ -19,7 +19,7 @@ install_os_packages() {
 install_golang() {
   mkdir -p $GOROOT
   pushd $HOME
-  file=go1.5.2.linux-amd64.tar.gz
+  file=go1.6.linux-amd64.tar.gz
   wget --continue "https://storage.googleapis.com/golang/$file" -O "$HOME/$file"
   tar -zxvf $file
   popd
