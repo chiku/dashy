@@ -1,5 +1,8 @@
 var domChanger = require("domchanger");
 var nanoajax = require("nanoajax");
+
+var Pipeline = require("./components/Pipeline");
+
 var config = window.config || {};
 
 var requestBody = JSON.stringify({
@@ -41,37 +44,6 @@ var asError = function(message, code) {
             status: "Failed"
         }]
     }];
-};
-
-var StageList = require("./components/StageList");
-
-var PipelineName = function() {
-    var pipelineNameProps = {
-        "class": "pipeline-name"
-    };
-    var render = function(name) {
-        return ["div", pipelineNameProps, name];
-    };
-
-    return {
-        render: render
-    };
-};
-
-var Pipeline = function() {
-    var pipelineProps = {
-        "class": "pipeline"
-    };
-    var render = function(pipeline) {
-        return ["div", pipelineProps, [
-            [StageList, pipeline.stages],
-            [PipelineName, pipeline.name]
-        ]];
-    };
-
-    return {
-        render: render
-    };
 };
 
 var PipelineList = function() {

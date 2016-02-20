@@ -3,13 +3,15 @@ var StageList = require("../../src/components/StageList");
 
 describe("StageList", function() {
     describe("#render", function() {
-        var stageList = new StageList().render([{
+        var stageOne = {
             "name": "Compile",
             "status": "Passed"
-        }, {
+        };
+        var stageTwo = {
             "name": "Test",
             "status": "Building"
-        }]);
+        };
+        var stageList = new StageList().render([stageOne, stageTwo]);
 
         it("creates a DOM representation", function() {
             expect(stageList[0]).toEqual("div");
@@ -27,17 +29,11 @@ describe("StageList", function() {
 
             var firstChild = children[0];
             expect(firstChild[0]).toEqual(Stage);
-            expect(firstChild[1]).toEqual({
-                "name": "Compile",
-                "status": "Passed"
-            });
+            expect(firstChild[1]).toEqual(stageOne);
 
             var secondChild = children[1];
             expect(secondChild[0]).toEqual(Stage);
-            expect(secondChild[1]).toEqual({
-                "name": "Test",
-                "status": "Building"
-            });
+            expect(secondChild[1]).toEqual(stageTwo);
         });
     });
 });
