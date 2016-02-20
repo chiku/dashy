@@ -30,7 +30,10 @@ gulp.task('js-compile', function() {
 
 gulp.task('js-test', function() {
     return gulp.src('javascript/test/**/*.test.js')
-        .pipe(jasmine());
+        .pipe(jasmine({
+            verbose: true,
+            includeStackTrace: true
+        }));
 });
 
 gulp.task('js-lint', function() {
