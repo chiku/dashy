@@ -1,3 +1,9 @@
+// javascript/test/components/Stage.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var Stage = require("../../src/components/Stage");
 
 describe("Stage", function() {

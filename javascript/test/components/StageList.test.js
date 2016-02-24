@@ -1,3 +1,9 @@
+// javascript/test/components/StageList.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var Stage = require("../../src/components/Stage");
 var StageList = require("../../src/components/StageList");
 

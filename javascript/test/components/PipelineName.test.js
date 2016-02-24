@@ -1,3 +1,9 @@
+// javascript/test/components/PipelineName.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var PipelineName = require("../../src/components/PipelineName");
 
 describe("PipelineName", function() {

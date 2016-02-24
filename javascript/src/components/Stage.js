@@ -1,3 +1,9 @@
+// javascript/src/components/Stage.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var Stage = function() {
     var render = function(stage) {
         var stageProps = {

@@ -1,3 +1,9 @@
+// javascript/src/main.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var domChanger = require("domchanger");
 var nanoajax = require("nanoajax");
 var PipelineLister = require("./components/PipelineList");

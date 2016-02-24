@@ -1,3 +1,9 @@
+// javascript/test/components/PipelineList.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var PipelineGroup = require("../../src/components/PipelineGroup");
 var PipelineLister = require("../../src/components/PipelineList");
 

@@ -1,3 +1,9 @@
+// javascript/src/components/PipelineList.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
 var PipelineGroup = require("./PipelineGroup");
 
 var PipelineList = function(groupSize) {

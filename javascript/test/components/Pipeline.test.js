@@ -1,3 +1,10 @@
+// javascript/test/components/Pipeline.js
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// License::   MIT
+
+
 var PipelineName = require("../../src/components/PipelineName");
 var StageList = require("../../src/components/StageList");
 var Pipeline = require("../../src/components/Pipeline");
