@@ -1,6 +1,8 @@
-hash: 8c4f00de9a391b0848d8303d204dd8bbf585847a69073074b974b8b992a309b9
-updated: 2016-02-20T10:39:43.260660342+05:30
+hash: 849a0b6ac8853d44777e4e80d05d94121e8354f2baded01c40557e74758168a9
+updated: 2016-03-03T08:27:33.285150525+05:30
 imports:
+- name: github.com/chiku/gocd
+  version: 67df9bf74ad04c91e6cec0cd07f3bb95a4be0984
 - name: github.com/gorilla/handlers
   version: 40694b40f4a928c062f56849989d3e9cd0570e5f
 - name: github.com/onsi/ginkgo

@@ -11,16 +11,51 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
-type dashyRequest struct {
-	URL       string   `json:"url"`
-	Interests []string `json:"interests"`
+type dashy struct {
+	URL       string    `json:"url"`
+	Interests interests `json:"interests"`
 }
 
-type dashy struct {
-	URL       string
-	Interests *Interests
+type interest struct {
+	Name        string
+	DisplayName string
+}
+
+func (i *interest) UnmarshalJSON(b []byte) (err error) {
+	raw := ""
+	if err = json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	parts := strings.Split(raw, ":>")
+	i.Name = parts[0]
+	if len(parts) >= 2 && parts[1] != "" {
+		i.DisplayName = parts[1]
+	}
+
+	return nil
+}
+
+type interests []interest
+
+func (is interests) DisplayNameMapping() map[string]string {
+	mapping := make(map[string]string)
+	for _, i := range is {
+		if i.DisplayName != "" {
+			mapping[i.Name] = i.DisplayName
+		}
+	}
+	return mapping
+}
+
+func (is interests) NameList() []string {
+	var list []string
+	for _, i := range is {
+		list = append(list, i.Name)
+	}
+	return list
 }
 
 func NewDashy(request *http.Request) (*dashy, error) {
@@ -28,22 +63,13 @@ func NewDashy(request *http.Request) (*dashy, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to read request body: %s", err)
 	}
-
 	defer request.Body.Close()
 
-	d := &dashyRequest{}
-	err = json.Unmarshal(body, d)
+	d := &dashy{}
+	err = json.Unmarshal(body, &d)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse JSON: %s", err)
 	}
 
-	interests := NewInterests()
-	for _, interest := range d.Interests {
-		interests.Add(interest)
-	}
-
-	return &dashy{
-		URL:       d.URL,
-		Interests: interests,
-	}, nil
+	return d, nil
 }

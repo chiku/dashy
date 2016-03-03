@@ -6,3 +6,4 @@ import:
   version: 25380c62e61d3f90436be125b8127dbae578fdef
 - package: github.com/onsi/gomega
   version: a2ab8644e0b6a33df2cbe44673bd0f6ebba9abc3
+- package: github.com/chiku/gocd
