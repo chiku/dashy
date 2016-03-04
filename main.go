@@ -14,6 +14,7 @@ import (
 	"os"
 
 	"github.com/chiku/dashy/app"
+	"github.com/chiku/gocd"
 	"github.com/gorilla/handlers"
 )
 
@@ -26,8 +27,10 @@ func main() {
 	logWriter := io.MultiWriter(file, os.Stdout)
 	log.SetOutput(logWriter)
 
+	client := gocd.NewClient()
+
 	mux := http.DefaultServeMux
-	mux.HandleFunc("/dashy", app.DashyHandler)
+	mux.HandleFunc("/dashy", app.DashyHandler(client))
 	mux.Handle("/", http.FileServer(http.Dir("./public")))
 
 	loggingHandler := handlers.CombinedLoggingHandler(logWriter, mux)
