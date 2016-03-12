@@ -6,7 +6,7 @@
 
 var domChanger = require("domchanger");
 var nanoajax = require("nanoajax");
-var PipelineLister = require("./components/PipelineList");
+var PipelineGroupLister = require("./components/PipelineGroupList");
 
 var config = window.config || {};
 
@@ -72,7 +72,7 @@ var Dashy = function(emit, refresh) {
         nanoajax.ajax(ajaxOptions, responseHandler);
     };
     var render = function() {
-        return [PipelineLister(groupSize), pipelines];
+        return [PipelineGroupLister(groupSize), pipelines];
     };
 
     tick();

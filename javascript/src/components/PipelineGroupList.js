@@ -1,4 +1,4 @@
-// javascript/src/components/PipelineList.js
+// javascript/src/components/PipelineGroupList.js
 //
 // Author::    Chirantan Mitra
 // Copyright:: Copyright (c) 2015-2016. All rights reserved
@@ -6,7 +6,7 @@
 
 var PipelineGroup = require("./PipelineGroup");
 
-var PipelineList = function(groupSize) {
+var PipelineGroupList = function PipelineGroupList(groupSize) {
     return function() {
         var render = function(pipelines) {
             var len = pipelines.length,
@@ -26,4 +26,4 @@ var PipelineList = function(groupSize) {
     };
 };
 
-module.exports = PipelineList;
+module.exports = PipelineGroupList;

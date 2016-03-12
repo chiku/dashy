@@ -8,7 +8,7 @@ var pipelineNameProps = {
     "class": "pipeline-name"
 };
 
-var PipelineName = function() {
+var PipelineName = function PipelineName() {
     var render = function(name) {
         return ["div", pipelineNameProps, name];
     };

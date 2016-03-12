@@ -6,7 +6,7 @@
 
 var Pipeline = require("./Pipeline");
 
-var PipelineGroup = function() {
+var PipelineGroup = function PipelineGroup() {
     var render = function(pipelines) {
         var groupProps = {
             "class": "pipeline-group pipeline-group-" + pipelines.length

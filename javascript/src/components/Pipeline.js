@@ -7,7 +7,7 @@
 var StageList = require("./StageList");
 var PipelineName = require("./PipelineName");
 
-var Pipeline = function() {
+var Pipeline = function Pipeline() {
     var pipelineProps = {
         "class": "pipeline"
     };

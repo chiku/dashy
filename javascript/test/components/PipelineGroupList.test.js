@@ -1,13 +1,13 @@
-// javascript/test/components/PipelineList.js
+// javascript/test/components/PipelineGroupList.js
 //
 // Author::    Chirantan Mitra
 // Copyright:: Copyright (c) 2015-2016. All rights reserved
 // License::   MIT
 
 var PipelineGroup = require("../../src/components/PipelineGroup");
-var PipelineLister = require("../../src/components/PipelineList");
+var PipelineGroupLister = require("../../src/components/PipelineGroupList");
 
-describe("PipelineList", function() {
+describe("PipelineGroupList", function() {
     describe("#render", function() {
         var pipelineOneStages = [{
             "name": "DashyCompile",
@@ -34,7 +34,7 @@ describe("PipelineList", function() {
         };
 
         describe("when group-size is less than total pipelines", function() {
-            var pipelineList = new PipelineLister(1)().render([pipelineOne, pipelineTwo]);
+            var pipelineList = new PipelineGroupLister(1)().render([pipelineOne, pipelineTwo]);
 
             it("has more than one pipeline group", function() {
                 expect(pipelineList.length).toEqual(2);
@@ -53,7 +53,7 @@ describe("PipelineList", function() {
         });
 
         describe("when group-size equals the number of pipelines", function() {
-            var pipelineList = new PipelineLister(2)().render([pipelineOne, pipelineTwo]);
+            var pipelineList = new PipelineGroupLister(2)().render([pipelineOne, pipelineTwo]);
 
             it("has a single pipeline group with all pipelines", function() {
                 expect(pipelineList.length).toEqual(1);
@@ -70,7 +70,7 @@ describe("PipelineList", function() {
         });
 
         describe("when group-size is 3", function() {
-            var pipelineList = new PipelineLister(3)().render([pipelineOne, pipelineTwo]);
+            var pipelineList = new PipelineGroupLister(3)().render([pipelineOne, pipelineTwo]);
 
             it("does not fill out the first pipeline group", function() {
                 expect(pipelineList.length).toEqual(1);

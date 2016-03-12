@@ -10,7 +10,7 @@ var stageContainerProps = {
     "class": "stage-container"
 };
 
-var StageList = function() {
+var StageList = function StageList() {
     var render = function(stages) {
         return ["div", stageContainerProps, stages.map(function(stage) {
             return [Stage, stage];
