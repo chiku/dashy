@@ -1,7 +1,7 @@
-// javascript/test/components/PipelineGroup.js
+// javascript/test/components/PipelineGroup.test.js
 //
 // Author::    Chirantan Mitra
-// Copyright:: Copyright (c) 2015-2016. All rights reserved
+// Copyright:: Copyright (c) 2015-2017. All rights reserved
 // License::   MIT
 
 var Pipeline = require("../../src/components/Pipeline");
