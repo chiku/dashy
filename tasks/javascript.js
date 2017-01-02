@@ -6,8 +6,6 @@
 
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
-var prettify = require('gulp-jsbeautifier');
 var sourcemaps = require('gulp-sourcemaps');
 var jasmine = require('gulp-jasmine');
 
@@ -35,29 +33,3 @@ gulp.task('js-test', function () {
             includeStackTrace: true
         }));
 });
-
-gulp.task('js-lint', function () {
-    return gulp.src(['./javascript/**/*.js', './gulpfile.js', './tasks/*.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
-gulp.task('js-format-main', function () {
-    return gulp.src(['./javascript/**/*.js'])
-        .pipe(prettify())
-        .pipe(gulp.dest('./javascript'));
-});
-
-gulp.task('js-format-gulpfile', function () {
-    return gulp.src(['./gulpfile.js'])
-        .pipe(prettify())
-        .pipe(gulp.dest('./'));
-});
-
-gulp.task('js-format-tasks', function () {
-    return gulp.src(['./tasks/*.js'])
-        .pipe(prettify())
-        .pipe(gulp.dest('./tasks'));
-});
-
-gulp.task('js-format', ['js-format-main', 'js-format-gulpfile', 'js-format-tasks']);

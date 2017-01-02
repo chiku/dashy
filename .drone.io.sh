@@ -37,14 +37,16 @@ install_golang_deps() {
 }
 
 build() {
-  npm run clean
   make clean
+  npm run clean
 
-  npm run test
   make test
+  npm run test
 
-  npm run compile
   make compile
+  npm run compile
+
+  npm run package
 }
 
 run() {
