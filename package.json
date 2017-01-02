@@ -37,9 +37,9 @@
   },
   "scripts": {
     "clean": "gulp clean",
-    "compile": "gulp js-compile",
-    "lint": "eslint ./tasks ./javascript .",
-    "lint:fix": "npm run lint -- --fix",
-    "test": "gulp test"
+    "compile": "gulp favicon-compile css-compile js-compile html-compile",
+    "lint": "eslint ./tasks ./javascript . && gulp css-format html-format",
+    "lint:fix": "eslint ./tasks ./javascript . --fix",
+    "test": "npm run lint && gulp test"
   }
 }
