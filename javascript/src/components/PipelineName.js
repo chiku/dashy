@@ -9,7 +9,7 @@ var pipelineNameProps = {
 };
 
 var PipelineName = function PipelineName() {
-    var render = function(name) {
+    var render = function (name) {
         return ["div", pipelineNameProps, name];
     };
 

@@ -15,7 +15,7 @@ var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 
-gulp.task('js-compile', function() {
+gulp.task('js-compile', function () {
     return browserify('./javascript/src/main.js')
         .bundle()
         .pipe(source('app.js'))
@@ -28,7 +28,7 @@ gulp.task('js-compile', function() {
         .pipe(gulp.dest('./out/public'));
 });
 
-gulp.task('js-test', function() {
+gulp.task('js-test', function () {
     return gulp.src('javascript/test/**/*.test.js')
         .pipe(jasmine({
             verbose: true,
@@ -36,25 +36,25 @@ gulp.task('js-test', function() {
         }));
 });
 
-gulp.task('js-lint', function() {
+gulp.task('js-lint', function () {
     return gulp.src(['./javascript/**/*.js', './gulpfile.js', './tasks/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('js-format-main', function() {
+gulp.task('js-format-main', function () {
     return gulp.src(['./javascript/**/*.js'])
         .pipe(prettify())
         .pipe(gulp.dest('./javascript'));
 });
 
-gulp.task('js-format-gulpfile', function() {
+gulp.task('js-format-gulpfile', function () {
     return gulp.src(['./gulpfile.js'])
         .pipe(prettify())
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('js-format-tasks', function() {
+gulp.task('js-format-tasks', function () {
     return gulp.src(['./tasks/*.js'])
         .pipe(prettify())
         .pipe(gulp.dest('./tasks'));

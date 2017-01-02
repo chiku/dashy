@@ -11,8 +11,8 @@ var stageContainerProps = {
 };
 
 var StageList = function StageList() {
-    var render = function(stages) {
-        return ["div", stageContainerProps, stages.map(function(stage) {
+    var render = function (stages) {
+        return ["div", stageContainerProps, stages.map(function (stage) {
             return [Stage, stage];
         })];
     };

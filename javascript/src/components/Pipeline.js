@@ -11,7 +11,7 @@ var Pipeline = function Pipeline() {
     var pipelineProps = {
         class: "pipeline"
     };
-    var render = function(pipeline) {
+    var render = function (pipeline) {
         return ["div", pipelineProps, [
             [StageList, pipeline.stages],
             [PipelineName, pipeline.name]

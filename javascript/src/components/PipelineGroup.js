@@ -7,11 +7,11 @@
 var Pipeline = require("./Pipeline");
 
 var PipelineGroup = function PipelineGroup() {
-    var render = function(pipelines) {
+    var render = function (pipelines) {
         var groupProps = {
             class: "pipeline-group pipeline-group-" + pipelines.length
         };
-        return ["div", groupProps, pipelines.map(function(pipeline) {
+        return ["div", groupProps, pipelines.map(function (pipeline) {
             return [Pipeline, pipeline];
         })];
     };

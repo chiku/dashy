@@ -7,8 +7,8 @@
 var Stage = require("../../src/components/Stage");
 var StageList = require("../../src/components/StageList");
 
-describe("StageList", function() {
-    describe("#render", function() {
+describe("StageList", function () {
+    describe("#render", function () {
         var stageOne = {
             name: "Compile",
             status: "Passed"
@@ -19,17 +19,17 @@ describe("StageList", function() {
         };
         var stageList = new StageList().render([stageOne, stageTwo]);
 
-        it("creates a DOM representation", function() {
+        it("creates a DOM representation", function () {
             expect(stageList[0]).toEqual("div");
         });
 
-        it("has CSS class", function() {
+        it("has CSS class", function () {
             expect(stageList[1]).toEqual({
                 class: "stage-container"
             });
         });
 
-        it("has Stage children", function() {
+        it("has Stage children", function () {
             var children = stageList[2];
             expect(children.length).toEqual(2);
 

@@ -12,13 +12,13 @@ require('./tasks/golang');
 require('./tasks/javascript');
 require('./tasks/assets');
 
-gulp.task('package', ['build'], function() {
+gulp.task('package', ['build'], function () {
     return gulp.src('./out/**')
         .pipe(zip('dashy.zip'))
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
     return del(['./out/**/*', './dashy.zip']);
 });
 

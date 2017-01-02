@@ -9,8 +9,8 @@ var PipelineName = require("../../src/components/PipelineName");
 var StageList = require("../../src/components/StageList");
 var Pipeline = require("../../src/components/Pipeline");
 
-describe("Pipeline", function() {
-    describe("#render", function() {
+describe("Pipeline", function () {
+    describe("#render", function () {
         var stageOne = {
             name: "Compile",
             status: "Passed"
@@ -24,22 +24,22 @@ describe("Pipeline", function() {
             stages: [stageOne, stageTwo]
         });
 
-        it("creates a DOM representation", function() {
+        it("creates a DOM representation", function () {
             expect(pipeline[0]).toEqual("div");
         });
 
-        it("has CSS class", function() {
+        it("has CSS class", function () {
             expect(pipeline[1]).toEqual({
                 class: "pipeline"
             });
         });
 
-        it("has DOM children", function() {
+        it("has DOM children", function () {
             var children = pipeline[2];
             expect(children.length).toEqual(2);
         });
 
-        it("has a list of stages as DOM child", function() {
+        it("has a list of stages as DOM child", function () {
             var children = pipeline[2];
             var stagesChild = children[0];
 
@@ -47,7 +47,7 @@ describe("Pipeline", function() {
             expect(stagesChild[1]).toEqual([stageOne, stageTwo]);
         });
 
-        it("has pipeline name as DOM child", function() {
+        it("has pipeline name as DOM child", function () {
             var children = pipeline[2];
             var nameChild = children[1];
 

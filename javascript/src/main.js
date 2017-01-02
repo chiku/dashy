@@ -18,11 +18,11 @@ var interval = config.interval || 30000;
 var groupSize = config.groupSize || 1;
 var baseSize = config.baseSize || 6;
 
-var isSuccess = function(code) {
+var isSuccess = function (code) {
     return code >= 200 && code <= 299;
 };
 
-var initCSS = function() {
+var initCSS = function () {
     var a1 = baseSize;
     var a2 = baseSize * 0.986111;
     var a3 = baseSize * 0.833334;
@@ -38,7 +38,7 @@ var initCSS = function() {
     document.getElementsByTagName("head")[0].appendChild(style);
 };
 
-var asError = function(message, code) {
+var asError = function (message, code) {
     var defaultedMessage = (code === 0) ? "Error - server down" : message;
     return [{
         name: defaultedMessage,
@@ -49,9 +49,9 @@ var asError = function(message, code) {
     }];
 };
 
-var Dashy = function(emit, refresh) {
+var Dashy = function (emit, refresh) {
     var pipelines = [];
-    var responseHandler = function(code, responseText) {
+    var responseHandler = function (code, responseText) {
         if (isSuccess(code)) {
             pipelines = JSON.parse(responseText);
         } else {
@@ -66,10 +66,10 @@ var Dashy = function(emit, refresh) {
         type: "POST",
         body: requestBody
     };
-    var tick = function() {
+    var tick = function () {
         nanoajax.ajax(ajaxOptions, responseHandler);
     };
-    var render = function() {
+    var render = function () {
         return [PipelineGroupLister(groupSize), pipelines];
     };
 

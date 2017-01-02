@@ -7,8 +7,8 @@
 var Pipeline = require("../../src/components/Pipeline");
 var PipelineGroup = require("../../src/components/PipelineGroup");
 
-describe("PipelineGroup", function() {
-    describe("#render", function() {
+describe("PipelineGroup", function () {
+    describe("#render", function () {
         var pipelineOneStages = [{
             name: "DashyCompile",
             status: "Passed"
@@ -35,17 +35,17 @@ describe("PipelineGroup", function() {
 
         var pipelineGroup = new PipelineGroup().render([pipelineOne, pipelineTwo]);
 
-        it("has creates a DOM representation", function() {
+        it("has creates a DOM representation", function () {
             expect(pipelineGroup[0]).toEqual("div");
         });
 
-        it("has CSS class", function() {
+        it("has CSS class", function () {
             expect(pipelineGroup[1]).toEqual({
                 class: "pipeline-group pipeline-group-2"
             });
         });
 
-        it("has pipelines as children", function() {
+        it("has pipelines as children", function () {
             var children = pipelineGroup[2];
             var firstChild = children[0];
             var secondChild = children[1];

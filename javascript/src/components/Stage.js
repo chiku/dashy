@@ -5,7 +5,7 @@
 // License::   MIT
 
 var Stage = function Stage() {
-    var render = function(stage) {
+    var render = function (stage) {
         var stageProps = {
             class: "stage " + stage.status.toLowerCase()
         };
