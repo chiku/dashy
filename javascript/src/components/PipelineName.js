@@ -5,7 +5,7 @@
 // License::   MIT
 
 var pipelineNameProps = {
-    "class": "pipeline-name"
+    class: "pipeline-name"
 };
 
 var PipelineName = function PipelineName() {

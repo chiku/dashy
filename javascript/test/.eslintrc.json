@@ -1,0 +1,25 @@
+{
+    "env": {
+        "node": true,
+        "jasmine": true
+    },
+    "extends": "airbnb-base/legacy",
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}

@@ -10,27 +10,27 @@ var PipelineGroupLister = require("../../src/components/PipelineGroupList");
 describe("PipelineGroupList", function() {
     describe("#render", function() {
         var pipelineOneStages = [{
-            "name": "DashyCompile",
-            "status": "Passed"
+            name: "DashyCompile",
+            status: "Passed"
         }, {
-            "name": "DashyTest",
-            "status": "Building"
+            name: "DashyTest",
+            status: "Building"
         }];
         var pipelineTwoStages = [{
-            "name": "FlashyCompile",
-            "status": "Passed"
+            name: "FlashyCompile",
+            status: "Passed"
         }, {
-            "name": "FlashyTest",
-            "status": "Failing"
+            name: "FlashyTest",
+            status: "Failing"
         }];
 
         var pipelineOne = {
-            "name": "Dashy",
-            "stages": pipelineOneStages
+            name: "Dashy",
+            stages: pipelineOneStages
         };
         var pipelineTwo = {
-            "name": "Dashy",
-            "stages": pipelineTwoStages
+            name: "Dashy",
+            stages: pipelineTwoStages
         };
 
         describe("when group-size is less than total pipelines", function() {
@@ -43,7 +43,6 @@ describe("PipelineGroupList", function() {
             it("has pipelines as its DOM children", function() {
                 expect(pipelineList[0][0]).toEqual(PipelineGroup);
                 expect(pipelineList[1][0]).toEqual(PipelineGroup);
-
             });
 
             it("has pipelines DOM constructed from pipelines data", function() {
@@ -61,7 +60,6 @@ describe("PipelineGroupList", function() {
 
             it("has pipelines as its DOM children", function() {
                 expect(pipelineList[0][0]).toEqual(PipelineGroup);
-
             });
 
             it("has pipelines DOM constructed from pipelines data", function() {
@@ -78,7 +76,6 @@ describe("PipelineGroupList", function() {
 
             it("has pipelines as its DOM children", function() {
                 expect(pipelineList[0][0]).toEqual(PipelineGroup);
-
             });
 
             it("has pipelines DOM constructed from pipelines data", function() {

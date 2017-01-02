@@ -7,7 +7,7 @@
 var Stage = require("./Stage");
 
 var stageContainerProps = {
-    "class": "stage-container"
+    class: "stage-container"
 };
 
 var StageList = function StageList() {

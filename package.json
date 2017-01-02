@@ -19,6 +19,9 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "del": "^2.2.0",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-cssnano": "^2.1.1",
     "gulp-htmlmin": "^3.0.0",
@@ -31,5 +34,12 @@
     "jshint": "^2.9.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "clean": "gulp clean",
+    "compile": "gulp js-compile",
+    "lint": "eslint ./tasks ./javascript .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "gulp test"
   }
 }

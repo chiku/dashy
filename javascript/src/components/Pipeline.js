@@ -9,7 +9,7 @@ var PipelineName = require("./PipelineName");
 
 var Pipeline = function Pipeline() {
     var pipelineProps = {
-        "class": "pipeline"
+        class: "pipeline"
     };
     var render = function(pipeline) {
         return ["div", pipelineProps, [

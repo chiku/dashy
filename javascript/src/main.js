@@ -39,11 +39,9 @@ var initCSS = function() {
 };
 
 var asError = function(message, code) {
-    if (code === 0) {
-        message = "Error - server down";
-    }
+    var defaultedMessage = (code === 0) ? "Error - server down" : message;
     return [{
-        name: message,
+        name: defaultedMessage,
         stages: [{
             name: "Error",
             status: "Failed"
@@ -53,12 +51,12 @@ var asError = function(message, code) {
 
 var Dashy = function(emit, refresh) {
     var pipelines = [];
-    var responseHandler = function(code, responseText, request) {
+    var responseHandler = function(code, responseText) {
         if (isSuccess(code)) {
             pipelines = JSON.parse(responseText);
-            console.log("tick!");
         } else {
             pipelines = asError(responseText, code);
+            /* eslint "no-console": 0 */
             console.error(responseText);
         }
         refresh();

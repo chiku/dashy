@@ -16,7 +16,7 @@ describe("PipelineName", function() {
 
         it("has CSS class", function() {
             expect(stage[1]).toEqual({
-                "class": "pipeline-name"
+                class: "pipeline-name"
             });
         });
 

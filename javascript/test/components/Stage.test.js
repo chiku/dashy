@@ -9,8 +9,8 @@ var Stage = require("../../src/components/Stage");
 describe("Stage", function() {
     describe("#render", function() {
         var stage = new Stage().render({
-            "name": "Test",
-            "status": "building"
+            name: "Test",
+            status: "building"
         });
 
         it("creates a DOM representation", function() {
@@ -19,7 +19,7 @@ describe("Stage", function() {
 
         it("has CSS class based on its status", function() {
             expect(stage[1]).toEqual({
-                "class": "stage building"
+                class: "stage building"
             });
         });
 
@@ -28,14 +28,14 @@ describe("Stage", function() {
         });
 
         describe("when status is not in all lower-case", function() {
-            var stage = new Stage().render({
-                "name": "Test",
-                "status": "Building"
+            var stageUpcase = new Stage().render({
+                name: "Test",
+                status: "Building"
             });
 
             it("has a lower-name CSS class name", function() {
-                expect(stage[1]).toEqual({
-                    "class": "stage building"
+                expect(stageUpcase[1]).toEqual({
+                    class: "stage building"
                 });
             });
         });

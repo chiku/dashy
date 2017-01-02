@@ -7,7 +7,7 @@
 var Stage = function Stage() {
     var render = function(stage) {
         var stageProps = {
-            "class": "stage " + stage.status.toLowerCase()
+            class: "stage " + stage.status.toLowerCase()
         };
         return ["div", stageProps, stage.name];
     };

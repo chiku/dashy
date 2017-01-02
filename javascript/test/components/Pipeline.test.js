@@ -12,16 +12,16 @@ var Pipeline = require("../../src/components/Pipeline");
 describe("Pipeline", function() {
     describe("#render", function() {
         var stageOne = {
-            "name": "Compile",
-            "status": "Passed"
+            name: "Compile",
+            status: "Passed"
         };
         var stageTwo = {
-            "name": "Test",
-            "status": "Building"
+            name: "Test",
+            status: "Building"
         };
         var pipeline = new Pipeline().render({
-            "name": "Dashy",
-            "stages": [stageOne, stageTwo]
+            name: "Dashy",
+            stages: [stageOne, stageTwo]
         });
 
         it("creates a DOM representation", function() {
@@ -30,7 +30,7 @@ describe("Pipeline", function() {
 
         it("has CSS class", function() {
             expect(pipeline[1]).toEqual({
-                "class": "pipeline"
+                class: "pipeline"
             });
         });
 
