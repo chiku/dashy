@@ -1,6 +1,7 @@
 #/bin/bash
 
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 setup_environment() {
   export GOROOT=$HOME/go
@@ -19,22 +20,31 @@ install_os_packages() {
 install_golang() {
   mkdir -p $GOROOT
   pushd $HOME
-  file=go1.6.linux-amd64.tar.gz
+  file=go1.7.4.linux-amd64.tar.gz
   wget --continue "https://storage.googleapis.com/golang/$file" -O "$HOME/$file"
   tar -zxvf $file
   popd
 }
 
 install_node_deps() {
+  npm prune
   npm install
 }
 
 install_golang_deps() {
   go get github.com/Masterminds/glide
+  glide install
 }
 
 build() {
-  ./node_modules/.bin/gulp
+  npm run clean
+  make clean
+
+  npm run test
+  make test
+
+  npm run compile
+  make compile
 }
 
 run() {
