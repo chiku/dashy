@@ -30,7 +30,7 @@ install_node_deps() {
 }
 
 install_golang_deps() {
-  go get github.com/MasterMinds/glide
+  go get github.com/Masterminds/glide
 }
 
 build() {
