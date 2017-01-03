@@ -5,10 +5,60 @@
 // License::   MIT
 
 var gulp = require('gulp');
-var del = require('del');
+var cssnano = require('gulp-cssnano');
+var htmlmin = require('gulp-htmlmin');
+var jsbeautifier = require('gulp-jsbeautifier');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 
-require('./tasks/javascript');
-require('./tasks/assets');
+var del = require('del');
+var browserify = require('browserify');
+var buffer = require('vinyl-buffer');
+var source = require('vinyl-source-stream');
+
+gulp.task('js-compile', function () {
+    return browserify('./javascript/src/main.js')
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({
+            loadMaps: true
+        }))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./out/public'));
+});
+
+gulp.task('css-compile', function () {
+    return gulp.src('./public/main.css')
+        .pipe(cssnano())
+        .pipe(gulp.dest('./out/public'));
+});
+
+gulp.task('css-format', function () {
+    return gulp.src(['./public/main.css'])
+        .pipe(jsbeautifier())
+        .pipe(gulp.dest('./public'));
+});
+
+gulp.task('html-compile', function () {
+    return gulp.src('./public/index.html')
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest('./out/public'));
+});
+
+gulp.task('html-format', function () {
+    return gulp.src(['./public/index.html'])
+        .pipe(jsbeautifier())
+        .pipe(gulp.dest('./public'));
+});
+
+gulp.task('favicon-compile', function () {
+    return gulp.src('./public/favicon.ico')
+        .pipe(gulp.dest('./out/public'));
+});
 
 gulp.task('clean', function () {
     return del(['./out/public/**/*', './dashy.zip']);
