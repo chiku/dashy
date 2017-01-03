@@ -51,7 +51,7 @@ $(binary):
 	${GO} build -o $(binary) $(main)
 
 clean:
-	${RM} $(out)
+	${RM} $(binary) $(coverage)
 .PHONY: clean
 
 $(coverage_out): $(sources)

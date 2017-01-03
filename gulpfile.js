@@ -6,19 +6,12 @@
 
 var gulp = require('gulp');
 var del = require('del');
-var zip = require('gulp-zip');
 
 require('./tasks/javascript');
 require('./tasks/assets');
 
-gulp.task('package', ['build'], function () {
-    return gulp.src('./out/**')
-        .pipe(zip('dashy.zip'))
-        .pipe(gulp.dest('./'));
-});
-
 gulp.task('clean', function () {
-    return del(['./out/**/*', './dashy.zip']);
+    return del(['./out/public/**/*', './dashy.zip']);
 });
 
 gulp.task('js', ['js-compile', 'js-test', 'js-format']);
@@ -32,4 +25,4 @@ gulp.task('test', ['js-test']);
 
 gulp.task('build', ['format', 'compile']);
 
-gulp.task('default', ['build', 'test', 'package']);
+gulp.task('default', ['build', 'test']);

@@ -3,4 +3,5 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-npm run package
+cd out
+zip -9 -o ../dashy.zip dashy public/*
