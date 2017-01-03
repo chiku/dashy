@@ -4,6 +4,8 @@
 // Copyright:: Copyright (c) 2015-2017. All rights reserved
 // License::   MIT
 
+var expect = require("chai").expect;
+
 var Pipeline = require("../../src/components/Pipeline");
 var PipelineGroup = require("../../src/components/PipelineGroup");
 
@@ -36,11 +38,11 @@ describe("PipelineGroup", function () {
         var pipelineGroup = new PipelineGroup().render([pipelineOne, pipelineTwo]);
 
         it("has creates a DOM representation", function () {
-            expect(pipelineGroup[0]).toEqual("div");
+            expect(pipelineGroup[0]).to.equal("div");
         });
 
         it("has CSS class", function () {
-            expect(pipelineGroup[1]).toEqual({
+            expect(pipelineGroup[1]).to.deep.equal({
                 class: "pipeline-group pipeline-group-2"
             });
         });
@@ -50,11 +52,11 @@ describe("PipelineGroup", function () {
             var firstChild = children[0];
             var secondChild = children[1];
 
-            expect(firstChild[0]).toEqual(Pipeline);
-            expect(firstChild[1]).toEqual(pipelineOne);
+            expect(firstChild[0]).to.equal(Pipeline);
+            expect(firstChild[1]).to.equal(pipelineOne);
 
-            expect(secondChild[0]).toEqual(Pipeline);
-            expect(secondChild[1]).toEqual(pipelineTwo);
+            expect(secondChild[0]).to.equal(Pipeline);
+            expect(secondChild[1]).to.equal(pipelineTwo);
         });
     });
 });

@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
+    "chai": "^3.5.0",
     "del": "^2.2.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb-base": "^11.0.0",
@@ -25,11 +26,11 @@
     "gulp": "^3.9.1",
     "gulp-cssnano": "^2.1.1",
     "gulp-htmlmin": "^3.0.0",
-    "gulp-jasmine": "^2.3.0",
     "gulp-jsbeautifier": "^2.0.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-zip": "^3.1.0",
+    "mocha": "^3.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
@@ -38,7 +39,8 @@
     "compile": "gulp favicon-compile css-compile js-compile html-compile",
     "lint": "eslint ./tasks ./javascript . && gulp css-format html-format",
     "lint:fix": "eslint ./tasks ./javascript . --fix",
+    "mocha": "mocha javascript/test/**/*.test.js",
     "package": "gulp package",
-    "test": "npm run lint && gulp test"
+    "test": "npm run lint && npm run mocha"
   }
 }

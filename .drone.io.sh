@@ -45,7 +45,9 @@ build() {
 
   make compile
   npm run compile
+}
 
+package() {
   npm run package
 }
 
@@ -63,6 +65,7 @@ main() {
   run install_node_deps
   run install_golang_deps
   run build
+  run package
 }
 
 main

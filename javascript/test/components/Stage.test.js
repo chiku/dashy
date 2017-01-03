@@ -4,6 +4,8 @@
 // Copyright:: Copyright (c) 2015-2017. All rights reserved
 // License::   MIT
 
+var expect = require("chai").expect;
+
 var Stage = require("../../src/components/Stage");
 
 describe("Stage", function () {
@@ -14,17 +16,17 @@ describe("Stage", function () {
         });
 
         it("creates a DOM representation", function () {
-            expect(stage[0]).toEqual("div");
+            expect(stage[0]).to.equal("div");
         });
 
         it("has CSS class based on its status", function () {
-            expect(stage[1]).toEqual({
+            expect(stage[1]).to.deep.equal({
                 class: "stage building"
             });
         });
 
         it("has contents based on its name", function () {
-            expect(stage[2]).toEqual("Test");
+            expect(stage[2]).to.equal("Test");
         });
 
         describe("when status is not in all lower-case", function () {
@@ -34,7 +36,7 @@ describe("Stage", function () {
             });
 
             it("has a lower-name CSS class name", function () {
-                expect(stageUpcase[1]).toEqual({
+                expect(stageUpcase[1]).to.deep.equal({
                     class: "stage building"
                 });
             });

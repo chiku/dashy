@@ -7,7 +7,6 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
-var jasmine = require('gulp-jasmine');
 
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
@@ -24,12 +23,4 @@ gulp.task('js-compile', function () {
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./out/public'));
-});
-
-gulp.task('js-test', function () {
-    return gulp.src('javascript/test/**/*.test.js')
-        .pipe(jasmine({
-            verbose: true,
-            includeStackTrace: true
-        }));
 });
