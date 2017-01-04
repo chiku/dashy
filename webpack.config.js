@@ -5,7 +5,13 @@ module.exports = {
 
     output: {
         path: __dirname,
-        filename: 'out/public/app.js'
+        filename: 'out/public/app.js',
+        publicPath: '/public/'
+    },
+
+    stats: {
+        colors: true,
+        reasons: true
     },
 
     devtool: 'source-map',
