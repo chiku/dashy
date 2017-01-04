@@ -11,7 +11,6 @@ var jsbeautifier = require('gulp-jsbeautifier');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
-var del = require('del');
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
@@ -58,10 +57,6 @@ gulp.task('html-format', function () {
 gulp.task('favicon-compile', function () {
     return gulp.src('./public/favicon.ico')
         .pipe(gulp.dest('./out/public'));
-});
-
-gulp.task('clean', function () {
-    return del(['./out/public/**/*', './dashy.zip']);
 });
 
 gulp.task('format', ['css-format', 'html-format']);
