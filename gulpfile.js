@@ -8,25 +8,6 @@ var gulp = require('gulp');
 var cssnano = require('gulp-cssnano');
 var htmlmin = require('gulp-htmlmin');
 var jsbeautifier = require('gulp-jsbeautifier');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-
-var browserify = require('browserify');
-var buffer = require('vinyl-buffer');
-var source = require('vinyl-source-stream');
-
-gulp.task('js-compile', function () {
-    return browserify('./javascript/src/main.js')
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(buffer())
-        .pipe(sourcemaps.init({
-            loadMaps: true
-        }))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./out/public'));
-});
 
 gulp.task('css-compile', function () {
     return gulp.src('./public/main.css')
