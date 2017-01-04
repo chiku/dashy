@@ -41,9 +41,8 @@ gulp.task('favicon-compile', function () {
 });
 
 gulp.task('format', ['css-format', 'html-format']);
-gulp.task('compile', ['js-compile', 'html-compile', 'css-compile', 'favicon-compile']);
-gulp.task('test', ['js-test']);
+gulp.task('compile', ['html-compile', 'css-compile', 'favicon-compile']);
 
 gulp.task('build', ['format', 'compile']);
 
-gulp.task('default', ['build', 'test']);
+gulp.task('default', ['build']);
