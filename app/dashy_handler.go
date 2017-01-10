@@ -37,7 +37,7 @@ func DashyHandler() http.HandlerFunc {
 			return
 		}
 
-		if len(output) == 0 {
+		if string(output) == "null" {
 			log.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(ignores, ", "))
 		}
 
