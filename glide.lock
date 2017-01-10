@@ -1,10 +1,11 @@
-hash: 09198b5bef646db23e4f0d98bec30eeb99bfeab1482fc980b5e10a35f1619e01
-updated: 2017-01-02T21:13:25.506448841+05:30
+hash: c815644cfd77f47f074f3511188e679633cbe73742b7122aad0675ff040cb819
+updated: 2017-01-11T00:16:55.332410549+05:30
 imports:
 - name: github.com/chiku/gocd
-  version: 198c655c6bbe02d1d8652ec4d5be7469b9340c19
+  version: ed132c105deebbeda517924b7758da17290dcca0
 - name: github.com/gorilla/handlers
   version: 3a5767ca75ece5f7f1440b1d16975247f8d8b221
+testImports:
 - name: github.com/onsi/ginkgo
   version: a23f924ce96d61f963fb6219b8ff069d8d768cc2
   subpackages:
@@ -38,7 +39,6 @@ imports:
   - matchers/support/goraph/node
   - matchers/support/goraph/util
   - types
-testImports:
 - name: golang.org/x/sys
   version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
