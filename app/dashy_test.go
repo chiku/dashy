@@ -59,7 +59,7 @@ var _ = Describe("Dashy", func() {
 	})
 
 	Context("when reading body fails", func() {
-		body := &BadReadCloser{err: errors.New("read error")}
+		body := ioutil.NopCloser(BadReader{err: errors.New("read error")})
 		request := &http.Request{Body: body}
 		dashy, err := a.NewDashy(request)
 

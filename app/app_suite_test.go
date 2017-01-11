@@ -18,7 +18,6 @@ func TestApp(t *testing.T) {
 	RunSpecs(t, "App Suite")
 }
 
-type BadReadCloser struct{ err error }
+type BadReader struct{ err error }
 
-func (rc *BadReadCloser) Close() error             { return nil }
-func (rc *BadReadCloser) Read([]byte) (int, error) { return 0, rc.err }
+func (rc BadReader) Read([]byte) (int, error) { return 0, rc.err }
