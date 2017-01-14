@@ -14,7 +14,6 @@ import (
 	"os"
 
 	"github.com/chiku/dashy/app"
-	"github.com/gorilla/handlers"
 )
 
 func main() {
@@ -30,7 +29,7 @@ func main() {
 	mux.HandleFunc("/dashy", app.DashyHandler())
 	mux.Handle("/", http.FileServer(http.Dir("./public")))
 
-	loggingHandler := handlers.CombinedLoggingHandler(logWriter, mux)
+	loggingHandler := app.NewLoggingHandler(logWriter, mux)
 	server := &http.Server{
 		Addr:    ":3000",
 		Handler: loggingHandler,

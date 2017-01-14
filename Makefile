@@ -20,7 +20,7 @@ MKDIR = mkdir -p
 RM = rm -rvf
 GO = go
 
-sources := $(wildcard app/*.go)
+sources := $(wildcard app/*.go *.go)
 app = ./app
 main = main.go
 out = out
@@ -47,7 +47,7 @@ test: $(coverage_html)
 compile: $(binary)
 .PHONY: compile
 
-$(binary):
+$(binary): $(sources)
 	${GO} build -o $(binary) $(main)
 
 clean:
