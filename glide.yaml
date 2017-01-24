@@ -1,7 +1,6 @@
 package: github.com/chiku/dashy
 import:
 - package: github.com/chiku/gocd
-- package: github.com/gorilla/handlers
 testImport:
 - package: github.com/onsi/ginkgo
 - package: github.com/onsi/gomega
