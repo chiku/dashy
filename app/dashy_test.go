@@ -4,79 +4,110 @@
 // Copyright:: Copyright (c) 2015-2017. All rights reserved
 // License::   MIT
 
-package app_test
+package app
 
 import (
 	"bytes"
 	"errors"
 	"io/ioutil"
 	"net/http"
-
-	a "github.com/chiku/dashy/app"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"reflect"
+	"strings"
+	"testing"
 )
 
-var _ = Describe("Dashy", func() {
-	Context("when accepting a HTTP request without display name", func() {
-		body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
-		request := &http.Request{Body: body}
-		dashy, err := a.NewDashy(request)
+type BadReader struct{ err error }
 
-		It("doesn't have an error", func() {
-			Expect(err).To(BeNil())
-		})
+func (rc BadReader) Read([]byte) (int, error) { return 0, rc.err }
 
-		It("extracts URL", func() {
-			Expect(dashy.URL).To(Equal("http://gocd.com:8153"))
-		})
+func TestDashyWithoutDisplayName(t *testing.T) {
+	body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
+	request := &http.Request{Body: body}
+	dashy, err := NewDashy(request)
 
-		It("extracts interests with names", func() {
-			interests := dashy.Interests
-			Expect(interests.NameList()).To(Equal([]string{"Foo", "Bar"}))
-			Expect(interests.DisplayNameMapping()).To(BeEmpty())
-		})
-	})
+	if err != nil {
+		t.Fatalf("Expected no error creating a dashy from HTTP request: %s", err)
+	}
 
-	Context("when accepting a HTTP request with display name", func() {
-		body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo:>Foo1", "Bar:>Bar1"]}`))
-		request := &http.Request{Body: body}
-		dashy, err := a.NewDashy(request)
+	expectedURL := "http://gocd.com:8153"
+	if dashy.URL != expectedURL {
+		t.Errorf("Expected dashy.URL to equal %s, but was %s", dashy.URL, expectedURL)
+	}
 
-		It("doesn't have an error", func() {
-			Expect(err).To(BeNil())
-		})
+	interests := dashy.Interests
 
-		It("extracts URL", func() {
-			Expect(dashy.URL).To(Equal("http://gocd.com:8153"))
-		})
+	expectedNameList := []string{"Foo", "Bar"}
+	if !reflect.DeepEqual(interests.NameList(), expectedNameList) {
+		t.Errorf("Expected names to equal %v, but was %v", interests.NameList(), expectedNameList)
+	}
 
-		It("extracts interests with names and display names", func() {
-			interests := dashy.Interests
-			Expect(interests.NameList()).To(Equal([]string{"Foo", "Bar"}))
-			Expect(interests.DisplayNameMapping()).To(Equal(map[string]string{"Foo": "Foo1", "Bar": "Bar1"}))
-		})
-	})
+	expectedDisplayNames := map[string]string{}
+	if !reflect.DeepEqual(interests.DisplayNameMapping(), expectedDisplayNames) {
+		t.Errorf("Expected display names when none present to equal %v, but was %v", interests.DisplayNameMapping(), expectedDisplayNames)
+	}
+}
 
-	Context("when reading body fails", func() {
-		body := ioutil.NopCloser(BadReader{err: errors.New("read error")})
-		request := &http.Request{Body: body}
-		dashy, err := a.NewDashy(request)
+func TestDashyWithDisplayName(t *testing.T) {
+	body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo:>Foo1", "Bar:>Bar1"]}`))
+	request := &http.Request{Body: body}
+	dashy, err := NewDashy(request)
 
-		It("has an error", func() {
-			Expect(err.Error()).To(Equal("failed to read request body: read error"))
-			Expect(dashy).To(BeNil())
-		})
-	})
+	if err != nil {
+		t.Fatalf("Expected no error creating a dashy from HTTP request: %s", err)
+	}
 
-	Context("when JSON parse fails", func() {
-		It("has an error", func() {
-			body := ioutil.NopCloser(bytes.NewBufferString(`BAD JSON`))
-			request := &http.Request{Body: body}
-			dashy, err := a.NewDashy(request)
+	expectedURL := "http://gocd.com:8153"
+	if dashy.URL != expectedURL {
+		t.Errorf("Expected dashy.URL to equal %s, but was %s", dashy.URL, expectedURL)
+	}
 
-			Expect(err.Error()).To(ContainSubstring("failed to parse JSON: "))
-			Expect(dashy).To(BeNil())
-		})
-	})
-})
+	interests := dashy.Interests
+
+	expectedNameList := []string{"Foo", "Bar"}
+	if !reflect.DeepEqual(interests.NameList(), expectedNameList) {
+		t.Errorf("Expected names to equal %v, but was %v", interests.NameList(), expectedNameList)
+	}
+
+	expectedDisplayNames := map[string]string{"Foo": "Foo1", "Bar": "Bar1"}
+	if !reflect.DeepEqual(interests.DisplayNameMapping(), expectedDisplayNames) {
+		t.Errorf("Expected display names when present to equal %v, but was %v", interests.DisplayNameMapping(), expectedDisplayNames)
+	}
+}
+
+func TestDashyWhenRequestBodyReadFails(t *testing.T) {
+	body := ioutil.NopCloser(BadReader{err: errors.New("read error")})
+	request := &http.Request{Body: body}
+	dashy, err := NewDashy(request)
+
+	if err == nil {
+		t.Fatal("Expected error creating a dashy from HTTP request when body read fails but wasn't")
+	}
+
+	expectedErrMsg := "failed to read request body: read error"
+	if err.Error() != expectedErrMsg {
+		t.Fatalf(`Expected error message "%s" to equal "%s", but wasn't`, err.Error(), expectedErrMsg)
+	}
+
+	if dashy != nil {
+		t.Fatalf("Expected no invalid dashy, but was :%v", dashy)
+	}
+}
+
+func TestDashyWhenRequestBodyJSONParseFails(t *testing.T) {
+	body := ioutil.NopCloser(bytes.NewBufferString(`BAD JSON`))
+	request := &http.Request{Body: body}
+	dashy, err := NewDashy(request)
+
+	if err == nil {
+		t.Fatal("Expected error creating a dashy from HTTP request when body read fails but wasn't")
+	}
+
+	expectedErrPartMsg := "failed to parse JSON: "
+	if !strings.Contains(err.Error(), expectedErrPartMsg) {
+		t.Fatalf(`Expected error message "%s" to contain sub-string "%s", but didn't`, err.Error(), expectedErrPartMsg)
+	}
+
+	if dashy != nil {
+		t.Fatalf("Expected no invalid dashy, but was :%v", dashy)
+	}
+}
