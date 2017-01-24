@@ -1,10 +1,10 @@
-// app/dashy.go
+// dashy.go
 //
 // Author::    Chirantan Mitra
 // Copyright:: Copyright (c) 2015-2017. All rights reserved
 // License::   MIT
 
-package app
+package main
 
 import (
 	"encoding/json"

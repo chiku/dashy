@@ -20,11 +20,9 @@ MKDIR = mkdir -p
 RM = rm -rvf
 GO = go
 
-sources := $(wildcard app/*.go *.go)
-app = ./app
-main = main.go
+sources := $(wildcard *.go)
 out = out
-packages = . $(app)
+packages = .
 binary = $(out)/dashy
 coverage = $(out)/coverage
 coverage_out = $(coverage)/coverage.out
@@ -48,7 +46,7 @@ compile: $(binary)
 .PHONY: compile
 
 $(binary): $(sources)
-	${GO} build -o $(binary) $(main)
+	${GO} build -o $(binary) $(packages)
 
 clean:
 	${RM} $(binary) $(coverage)
@@ -56,7 +54,7 @@ clean:
 
 $(coverage_out): $(sources)
 	${MKDIR} $(coverage)
-	${GO} test $(app) -coverprofile=$(coverage_out)
+	${GO} test $(packages) -coverprofile=$(coverage_out)
 
 $(coverage_html): $(coverage_out)
 	${GO} tool cover -func=$(coverage_out)

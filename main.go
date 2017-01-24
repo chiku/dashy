@@ -12,8 +12,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/chiku/dashy/app"
 )
 
 func main() {
@@ -26,10 +24,10 @@ func main() {
 	log.SetOutput(logWriter)
 
 	mux := http.DefaultServeMux
-	mux.HandleFunc("/dashy", app.DashyHandler())
+	mux.HandleFunc("/dashy", DashyHandler())
 	mux.Handle("/", http.FileServer(http.Dir("./public")))
 
-	loggingHandler := app.NewLoggingHandler(logWriter, mux)
+	loggingHandler := NewLoggingHandler(logWriter, mux)
 	server := &http.Server{
 		Addr:    ":3000",
 		Handler: loggingHandler,
