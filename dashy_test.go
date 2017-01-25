@@ -20,8 +20,8 @@ type BadReader struct{ err error }
 
 func (rc BadReader) Read([]byte) (int, error) { return 0, rc.err }
 
-func TestDashyWithoutDisplayName(t *testing.T) {
-	body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar"]}`))
+func TestDashy(t *testing.T) {
+	body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo", "Bar:>Bar1"]}`))
 	request := &http.Request{Body: body}
 	dashy, err := NewDashy(request)
 
@@ -41,36 +41,9 @@ func TestDashyWithoutDisplayName(t *testing.T) {
 		t.Errorf("Expected names to equal %v, but was %v", interests.NameList(), expectedNameList)
 	}
 
-	expectedDisplayNames := map[string]string{}
+	expectedDisplayNames := map[string]string{"Foo": "Foo", "Bar": "Bar1"}
 	if !reflect.DeepEqual(interests.DisplayNameMapping(), expectedDisplayNames) {
 		t.Errorf("Expected display names when none present to equal %v, but was %v", interests.DisplayNameMapping(), expectedDisplayNames)
-	}
-}
-
-func TestDashyWithDisplayName(t *testing.T) {
-	body := ioutil.NopCloser(bytes.NewBufferString(`{"url": "http://gocd.com:8153", "interests": ["Foo:>Foo1", "Bar:>Bar1"]}`))
-	request := &http.Request{Body: body}
-	dashy, err := NewDashy(request)
-
-	if err != nil {
-		t.Fatalf("Expected no error creating a dashy from HTTP request: %s", err)
-	}
-
-	expectedURL := "http://gocd.com:8153"
-	if dashy.URL != expectedURL {
-		t.Errorf("Expected dashy.URL to equal %s, but was %s", dashy.URL, expectedURL)
-	}
-
-	interests := dashy.Interests
-
-	expectedNameList := []string{"Foo", "Bar"}
-	if !reflect.DeepEqual(interests.NameList(), expectedNameList) {
-		t.Errorf("Expected names to equal %v, but was %v", interests.NameList(), expectedNameList)
-	}
-
-	expectedDisplayNames := map[string]string{"Foo": "Foo1", "Bar": "Bar1"}
-	if !reflect.DeepEqual(interests.DisplayNameMapping(), expectedDisplayNames) {
-		t.Errorf("Expected display names when present to equal %v, but was %v", interests.DisplayNameMapping(), expectedDisplayNames)
 	}
 }
 
