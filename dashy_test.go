@@ -58,11 +58,11 @@ func TestDashyWhenRequestBodyReadFails(t *testing.T) {
 
 	expectedErrMsg := "failed to read request body: read error"
 	if err.Error() != expectedErrMsg {
-		t.Fatalf(`Expected error message "%s" to equal "%s", but wasn't`, err.Error(), expectedErrMsg)
+		t.Fatalf("Expected error message %q to equal %q, but wasn't", err.Error(), expectedErrMsg)
 	}
 
 	if dashy != nil {
-		t.Fatalf("Expected no invalid dashy, but was :%v", dashy)
+		t.Fatalf("Expected no invalid dashy, but was: %v", dashy)
 	}
 }
 
@@ -77,10 +77,10 @@ func TestDashyWhenRequestBodyJSONParseFails(t *testing.T) {
 
 	expectedErrPartMsg := "failed to parse JSON: "
 	if !strings.Contains(err.Error(), expectedErrPartMsg) {
-		t.Fatalf(`Expected error message "%s" to contain sub-string "%s", but didn't`, err.Error(), expectedErrPartMsg)
+		t.Fatalf("Expected error message %q to contain sub-string %q, but didn't", err.Error(), expectedErrPartMsg)
 	}
 
 	if dashy != nil {
-		t.Fatalf("Expected no invalid dashy, but was :%v", dashy)
+		t.Fatalf("Expected no invalid dashy, but was: %v", dashy)
 	}
 }

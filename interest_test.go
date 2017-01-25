@@ -83,6 +83,6 @@ func TestInterestUnmarshalInvalidJSON(t *testing.T) {
 
 	expectedErrMsgPart := ""
 	if !strings.Contains(err.Error(), expectedErrMsgPart) {
-		t.Errorf(`Expected error "%s" to contain "%s", but didn't`, err.Error(), expectedErrMsgPart)
+		t.Errorf("Expected error %q to contain %q, but didn't", err.Error(), expectedErrMsgPart)
 	}
 }
