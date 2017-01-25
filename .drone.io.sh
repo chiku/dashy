@@ -31,11 +31,6 @@ install_node_deps() {
   npm install
 }
 
-install_golang_deps() {
-  go get github.com/Masterminds/glide
-  glide install
-}
-
 build() {
   ./build.sh
 }
@@ -56,7 +51,6 @@ main() {
   run install_os_packages
   run install_golang
   run install_node_deps
-  run install_golang_deps
   run build
   run package
 }
