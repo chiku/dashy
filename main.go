@@ -7,7 +7,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -20,22 +19,20 @@ func main() {
 		log.Fatalf("Failed to open log file: %s", err)
 	}
 	defer file.Close()
+
 	logWriter := io.MultiWriter(file, os.Stdout)
-	log.SetOutput(logWriter)
+	logger := log.New(logWriter, "", log.LstdFlags)
 
-	mux := http.DefaultServeMux
-	mux.HandleFunc("/dashy", DashyHandler(log.New(logWriter, "", log.LstdFlags)))
-	mux.Handle("/", http.FileServer(http.Dir("./public")))
-
+	mux := NewRouter(logger)
 	loggingHandler := NewLoggingHandler(logWriter, mux)
 	server := &http.Server{
 		Addr:    ":3000",
 		Handler: loggingHandler,
 	}
 
-	fmt.Println("Starting the application on http://localhost:3000")
+	logger.Println("Starting the application on http://localhost:3000")
 	err = server.ListenAndServe()
 	if err != nil {
-		fmt.Printf("failed to start application: %s\n", err)
+		logger.Fatalf("Failed to start application: %s", err)
 	}
 }

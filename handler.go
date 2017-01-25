@@ -22,6 +22,7 @@ func DashyHandler(logger *log.Logger) http.HandlerFunc {
 		if err != nil {
 			errorMsg := "error reading dashy request"
 			logger.Printf("%s: %s", errorMsg, err)
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 			http.Error(w, errorMsg, http.StatusBadRequest)
 			return
 		}
@@ -36,6 +37,8 @@ func DashyHandler(logger *log.Logger) http.HandlerFunc {
 			http.Error(w, errorMsg, http.StatusServiceUnavailable)
 			return
 		}
+
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 		if string(output) == "null" {
 			logger.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(ignores, ", "))
