@@ -124,8 +124,8 @@ func NewLogEntry(req *http.Request, url url.URL, startTime time.Time, status, si
 }
 
 func (entry LogEntry) Output() string {
-	return fmt.Sprintf(`
-{"time": %q, "client": %q, "protocol": %q, "method": %q, "uri": %q, "status": %d, "duration": %d, "size": %d}`,
+	return fmt.Sprintf(`{"time": %q, "client": %q, "protocol": %q, "method": %q, "uri": %q, "status": %d, "duration": %d, "size": %d}
+	`,
 		entry.startTime.Format("2006-01-02 15:04:05.999 Z07:00"),
 		entry.client, entry.protocol, entry.method, entry.uri, entry.status, entry.duration, entry.size)
 }

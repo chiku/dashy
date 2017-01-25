@@ -14,14 +14,14 @@ import (
 	"github.com/chiku/gocd"
 )
 
-func DashyHandler() http.HandlerFunc {
+func DashyHandler(logger *log.Logger) http.HandlerFunc {
 	fetcher := gocd.Fetch()
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		dashy, err := NewDashy(r)
 		if err != nil {
 			errorMsg := "error reading dashy request"
-			log.Printf("%s: %s", errorMsg, err)
+			logger.Printf("%s: %s", errorMsg, err)
 			http.Error(w, errorMsg, http.StatusBadRequest)
 			return
 		}
@@ -32,13 +32,13 @@ func DashyHandler() http.HandlerFunc {
 		output, ignores, err := fetcher(url, interests.NameList(), interests.DisplayNameMapping())
 		if err != nil {
 			errorMsg := "error fetching data from Gocd"
-			log.Printf("%s: %s", errorMsg, err)
+			logger.Printf("%s: %s", errorMsg, err)
 			http.Error(w, errorMsg, http.StatusServiceUnavailable)
 			return
 		}
 
 		if string(output) == "null" {
-			log.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(ignores, ", "))
+			logger.Printf("not configured to display any pipelines, you could try to include some of these pipelines: %s", strings.Join(ignores, ", "))
 		}
 
 		w.Write(output)

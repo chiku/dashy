@@ -24,7 +24,7 @@ func main() {
 	log.SetOutput(logWriter)
 
 	mux := http.DefaultServeMux
-	mux.HandleFunc("/dashy", DashyHandler())
+	mux.HandleFunc("/dashy", DashyHandler(log.New(logWriter, "", log.LstdFlags)))
 	mux.Handle("/", http.FileServer(http.Dir("./public")))
 
 	loggingHandler := NewLoggingHandler(logWriter, mux)
