@@ -6,12 +6,9 @@
 
 package main
 
-import (
-	"log"
-	"net/http"
-)
+import "net/http"
 
-func NewRouter(logger *log.Logger) *http.ServeMux {
+func NewRouter(logger *Logger) *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/dashy", DashyHandler(logger))
 	mux.Handle("/", http.FileServer(http.Dir("./public")))

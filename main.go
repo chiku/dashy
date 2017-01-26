@@ -21,16 +21,18 @@ func main() {
 	defer file.Close()
 
 	logWriter := io.MultiWriter(file, os.Stdout)
-	logger := log.New(logWriter, "", log.LstdFlags)
+	logger := NewLogger(logWriter)
+
+	port := ":3000"
 
 	mux := NewRouter(logger)
-	loggingHandler := NewLoggingHandler(logWriter, mux)
+	loggingMux := NewLoggingHandler(logWriter, mux)
 	server := &http.Server{
-		Addr:    ":3000",
-		Handler: loggingHandler,
+		Addr:    port,
+		Handler: loggingMux,
 	}
 
-	logger.Println("Starting the application on http://localhost:3000")
+	logger.Printf("Starting the application on http://localhost%s", port)
 	err = server.ListenAndServe()
 	if err != nil {
 		logger.Fatalf("Failed to start application: %s", err)

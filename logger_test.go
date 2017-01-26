@@ -1,3 +1,9 @@
+// logger_test.go
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2017. All rights reserved
+// License::   MIT
+
 // Parts of the logging.go are based on
 // https://github.com/gorilla/handlers/blob/master/handlers_test.go
 // gorilla/handlers is released under the BSD license.
@@ -36,6 +42,49 @@ func newTimeStamp() time.Time {
 		panic(err)
 	}
 	return time.Date(1983, 05, 26, 3, 30, 45, 0, loc)
+}
+
+type recorder struct{ record string }
+
+func (r *recorder) Write(b []byte) (int, error) {
+	r.record = string(b)
+	return len(b), nil
+}
+
+func TestLoggerPrint(t *testing.T) {
+	recorder := &recorder{}
+	logger := NewLogger(recorder)
+
+	logger.Print(`this is a "message"`)
+	record := recorder.record
+
+	expectedPrefix := `{"time": "`
+	expectedSuffix := `", "msg": "this is a \"message\""}
+`
+	if !strings.HasPrefix(record, expectedPrefix) {
+		t.Errorf("Expected log message \n%s\n to start with \n%s\n, but didn't", record, expectedPrefix)
+	}
+	if !strings.HasSuffix(record, expectedSuffix) {
+		t.Errorf("Expected log message \n%s\n to end with \n%s\n, but didn't", record, expectedSuffix)
+	}
+}
+
+func TestLoggerPrintf(t *testing.T) {
+	recorder := &recorder{}
+	logger := NewLogger(recorder)
+
+	logger.Printf("these are %d %s", 10, "messages")
+	record := recorder.record
+
+	expectedPrefix := `{"time": "`
+	expectedSuffix := `", "msg": "these are 10 messages"}
+`
+	if !strings.HasPrefix(record, expectedPrefix) {
+		t.Errorf("Expected log message \n%s\n to start with \n%s\n, but didn't", record, expectedPrefix)
+	}
+	if !strings.HasSuffix(record, expectedSuffix) {
+		t.Errorf("Expected log message \n%s\n to end with \n%s\n, but didn't", record, expectedSuffix)
+	}
 }
 
 func TestLogEntryOutput(t *testing.T) {

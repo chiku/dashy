@@ -1,4 +1,4 @@
-// dashy_handler.go
+// handler.go
 //
 // Author::    Chirantan Mitra
 // Copyright:: Copyright (c) 2015-2017. All rights reserved
@@ -7,14 +7,13 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
 	"github.com/chiku/gocd"
 )
 
-func DashyHandler(logger *log.Logger) http.HandlerFunc {
+func DashyHandler(logger *Logger) http.HandlerFunc {
 	fetcher := gocd.Fetch()
 
 	return func(w http.ResponseWriter, r *http.Request) {

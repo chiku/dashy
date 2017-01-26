@@ -10,7 +10,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -46,7 +45,7 @@ func TestDashyHandler(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	logger := log.New(os.Stdout, "test-log: ", 0)
+	logger := NewLogger(os.Stdout)
 	router := NewRouter(logger)
 
 	body := bytes.NewBufferString(fmt.Sprintf(`{"url": "%s", "interests": ["Pipeline"]}`, ts.URL))
@@ -104,7 +103,7 @@ func TestDashyHandlerWhenClientError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	logger := log.New(os.Stdout, "test-log: ", 0)
+	logger := NewLogger(os.Stdout)
 	router := NewRouter(logger)
 
 	body := bytes.NewBufferString(fmt.Sprintf(`{"url": "%s", "interests": MALFORMED}`, ts.URL))
@@ -137,7 +136,7 @@ func TestDashyHandlerWhenRemoteError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	logger := log.New(os.Stdout, "test-log: ", 0)
+	logger := NewLogger(os.Stdout)
 	router := NewRouter(logger)
 
 	body := bytes.NewBufferString(fmt.Sprintf(`{"url": "%s", "interests": ["Pipeline"]}`, ts.URL))
@@ -170,7 +169,7 @@ func TestDashyHandlerWhenNoPipelineMatch(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	logger := log.New(os.Stdout, "test-log: ", 0)
+	logger := NewLogger(os.Stdout)
 	router := NewRouter(logger)
 
 	body := bytes.NewBufferString(fmt.Sprintf(`{"url": "%s", "interests": ["SomeThingElse"]}`, ts.URL))

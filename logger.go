@@ -1,3 +1,9 @@
+// logger.go
+//
+// Author::    Chirantan Mitra
+// Copyright:: Copyright (c) 2015-2017. All rights reserved
+// License::   MIT
+
 // Parts of the logging.go are based on
 // https://github.com/gorilla/handlers/blob/master/handlers.go
 // gorilla/handlers is released under the BSD license.
@@ -14,8 +20,39 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 )
+
+// Logger implements methods that log in JSON format.
+type Logger struct {
+	w io.Writer
+}
+
+// NewLogger creates an instance of Logger.
+func NewLogger(w io.Writer) *Logger {
+	return &Logger{w: w}
+}
+
+func (logger Logger) Print(msg string) {
+	out := fmt.Sprintf(`{"time": %q, "msg": %q}
+`, time.Now().Format("2006-01-02 15:04:05.999 Z07:00"), msg)
+	logger.w.Write([]byte(out))
+}
+
+func (logger Logger) Printf(format string, args ...interface{}) {
+	logger.Print(fmt.Sprintf(format, args...))
+}
+
+func (logger Logger) Fatal(msg string) {
+	logger.Print(msg)
+	os.Exit(1)
+}
+
+func (logger Logger) Fatalf(format string, args ...interface{}) {
+	logger.Printf(format, args...)
+	os.Exit(1)
+}
 
 // LoggingHandler wraps a http.Handler implementation with logging support.
 type LoggingHandler struct {
