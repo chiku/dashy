@@ -10,3 +10,6 @@ go:
 install:
   - go get github.com/Masterminds/glide
   - glide install
+
+script:
+  - ./build.sh
